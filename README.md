@@ -37,7 +37,7 @@ Found a bug? Please [submit a new issues](https://github.com/KevinWoodhouse/sket
 
 ### License
 Sketch Nudged is released under the MIT license.  
-See [LICENSE](https://github.com/KevinWoodhouse/sketch-nudged/blog/master/LICENSE/) for details.
+See [LICENSE](https://github.com/KevinWoodhouse/sketch-nudged/blob/master/LICENSE/) for details.
 
 ### Credits
 **&copy; Kevin Woodhouse**  
