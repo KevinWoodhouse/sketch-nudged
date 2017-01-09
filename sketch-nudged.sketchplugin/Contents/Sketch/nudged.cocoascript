@@ -1,0 +1,306 @@
+// Plugin: Nudged
+// Version: 1.0
+// Description : A Sketch plugin to easily edit your nudge distance settings.
+
+// Creator: Kevin Woodhouse
+// Site   : http://www.kevinwoodhouse.com
+// Project: https://www.github.com/KevinWoodhouse/sketch-nudged/
+// Twitter: @Kevin_Woodhouse
+// Licence: MIT
+
+
+var plugin = {
+  Name:"Nudged",
+  version: 1.0,
+  githubURL: "http://www.github.com/KevinWoodhouse/sketch-nudged"
+}
+
+var settings = {
+  identifier: 'com.kevinwoodhouse.sketch-nudged',
+  windowWidth: 250,
+  windowHeight: 265,
+  theme:"light",
+  dev: false
+}
+
+var fonts = {
+  fontName: "",
+  useCustomFont: false,
+  titleFontSize: 13,
+  descriptionFontSize: 10,
+  creditsFontSize: 9,
+  button:15
+}
+
+var uiColours = {
+  light: {
+    titleBar: [NSColor colorWithCalibratedRed:(230/255) green:(230/255) blue:(230/255) alpha:1]],
+    bg: [NSColor colorWithCalibratedRed:(245/255) green:(245/255) blue:(245/255) alpha:1]],
+    button: [NSColor colorWithCalibratedRed:(14/255) green:(122/255) blue:(254/255) alpha:1]],
+    buttonLabel: [NSColor colorWithCalibratedRed:(255/255) green:(255/255) blue:(255/255) alpha:1]],
+    title: [NSColor colorWithCalibratedRed:(67/255) green:(67/255) blue:(67/255) alpha:1]],
+    description: [NSColor colorWithCalibratedRed:(100/255) green:(100/255) blue:(100/255) alpha:1]],
+    fieldBG: [NSColor colorWithCalibratedRed:(215/255) green:(215/255) blue:(215/255) alpha:1]],
+    fieldBorder: [NSColor colorWithCalibratedRed:(67/255) green:(67/255) blue:(67/255) alpha:1]],
+    creditsText: [NSColor colorWithCalibratedRed:(95/255) green:(95/255) blue:(95/255) alpha:1]]
+  }
+}
+
+var inputSettings = {
+  radius: 4,
+  width: 46,
+  height: 25,
+  fontSize: 20,
+  fontAlign: NSCenterTextAlignment,
+  hasBezel: false,
+  hasBorder: false,
+  isSingleLine: true,
+  isLineWrapping: false,
+  isScrollable: true
+}
+
+
+
+
+// SETTINGS WINDOW
+var settingsWindow = function(context){
+  // get api from context
+  var sketchApp = context.api().Application()
+  var sketch = context
+  // get saved nudge distance settings
+  var savedSmallValue = sketchApp.settingForKey("nudgeDistanceSmall")
+  var savedBigValue = sketchApp.settingForKey("nudgeDistanceBig")
+
+  // CREATE WINDOW
+  var settingsWindow = [[NSPanel alloc] init]
+  [settingsWindow setFrame:NSMakeRect(0, 0, settings.windowWidth, settings.windowHeight) display:true]
+  [settingsWindow setBackgroundColor:uiColours.light.titleBar]
+  [settingsWindow setTitlebarAppearsTransparent:true]
+  [settingsWindow setTitleVisibility:NSWindowTitleHidden]
+  [settingsWindow setMovableByWindowBackground:true]
+  [[settingsWindow standardWindowButton:NSWindowCloseButton] setHidden:false]
+  [[settingsWindow standardWindowButton:NSWindowMiniaturizeButton] setHidden:true]
+  [[settingsWindow standardWindowButton:NSWindowZoomButton] setHidden:true]
+
+  var closeButton = [settingsWindow standardWindowButton:NSWindowCloseButton]
+  [closeButton setCOSJSTargetFunction:function(sender) {
+      [settingsWindow orderOut:nil]
+      [NSApp stopModal]
+  }]
+  [closeButton setAction:"callAction:"]
+
+  // image helper functions
+  function imageSuffix(){
+     return NSScreen.isOnRetinaScreen() ? "@2x" : ""
+  }
+  // returns a nice path for an image in resouces folder
+  function resourceFolderImagePath(fileName,ext){
+    var imgPath = context.api().resourceNamed(fileName + imageSuffix() + ext)
+    var file = [imgPath path]
+    return file
+  }
+
+  // uiView
+  var uiView = [[NSView alloc] initWithFrame:NSMakeRect(0, 0, settings.windowWidth, settings.windowHeight)]
+  uiView.setWantsLayer(true)
+  [[settingsWindow contentView] addSubview:uiView]
+
+  var logoImage = resourceFolderImagePath("NudgedLogo",".png")
+  var logo =  NSImage.alloc().initByReferencingFile(logoImage)
+  var imageView = [[NSImageView alloc] initWithFrame:NSMakeRect(77, 195, 97, 30)]
+  [imageView setImage: logo]
+  [uiView addSubview:imageView]
+
+
+  // VERSION NUMBER
+  var versionNumber = [[NSTextField alloc] initWithFrame:NSMakeRect(220, 220, 20, 20)]
+  [versionNumber setEditable:false]
+  [versionNumber setBordered:false]
+  [versionNumber setFont:[NSFont systemFontOfSize:10]]
+  [versionNumber setTextColor:uiColours.light.title]
+  [versionNumber setDrawsBackground:false]
+  [versionNumber setStringValue:plugin.version.toFixed(1)]
+  [versionNumber sizeToFit]
+  [uiView addSubview:versionNumber]
+
+
+  // UI
+  // SMALL
+  var smallTitle = [[NSTextField alloc] initWithFrame:NSMakeRect(44, 155, 233, 15)]
+  [smallTitle setEditable:false]
+  [smallTitle setBordered:false]
+  [smallTitle setFont:[NSFont boldSystemFontOfSize:fonts.titleFontSize]]
+  [smallTitle setTextColor:uiColours.light.title]
+  [smallTitle setDrawsBackground:false]
+  [smallTitle setStringValue:"Small Nudge"]
+  [smallTitle sizeToFit]
+  [uiView addSubview:smallTitle]
+
+  var smallDescription = [[NSTextField alloc] initWithFrame:NSMakeRect(75, 140, 243, 15)]
+  [smallDescription setEditable:false]
+  [smallDescription setBordered:false]
+  [smallDescription setFont:[NSFont systemFontOfSize:fonts.descriptionFontSize]]
+  [smallDescription setTextColor:uiColours.light.description]
+  [smallDescription setDrawsBackground:false]
+  [smallDescription setStringValue:"Arrow keys"]
+  [smallDescription sizeToFit]
+  [uiView addSubview:smallDescription]
+
+  var smallNudgeInputField = [[NSTextField alloc] initWithFrame:NSMakeRect(150, 142, inputSettings.width, inputSettings.height)]
+  [[smallNudgeInputField cell] setPlaceholderString:"0"]
+  [[smallNudgeInputField cell] setFocusRingType:NSFocusRingTypeNone]
+  [smallNudgeInputField setStringValue:savedSmallValue]
+  [smallNudgeInputField setBezeled:inputSettings.hasBezel]
+  [smallNudgeInputField setBordered:inputSettings.hasBorder]
+  [[smallNudgeInputField cell] setUsesSingleLineMode:inputSettings.isSingleLine]
+  [[smallNudgeInputField cell] setWraps:inputSettings.isLineWrapping]
+  [[smallNudgeInputField cell] setScrollable:inputSettings.isScrollable]
+  [smallNudgeInputField setFont:[NSFont systemFontOfSize:inputSettings.fontSize]]
+  [smallNudgeInputField setWantsLayer:true]
+  [smallNudgeInputField setCornerRadius:inputSettings.radius]
+  [smallNudgeInputField setAlignment:inputSettings.fontAlign]
+  [smallNudgeInputField setBackgroundColor:uiColours.light.fieldBG]
+  [uiView addSubview:smallNudgeInputField]
+
+
+
+  // BIG
+  var bigTitle = [[NSTextField alloc] initWithFrame:NSMakeRect(58, 110, 243, 15)]
+  [bigTitle setEditable:false]
+  [bigTitle setBordered:false]
+  [bigTitle setFont:[NSFont boldSystemFontOfSize:fonts.titleFontSize]]
+  [bigTitle setTextColor:uiColours.light.title]
+  [bigTitle setDrawsBackground:false]
+  [bigTitle setStringValue:"Big Nudge"]
+  [bigTitle sizeToFit]
+  [uiView addSubview:bigTitle]
+
+  var bigDescription = [[NSTextField alloc] initWithFrame:NSMakeRect(38, 95, 243, 15)]
+  [bigDescription setEditable:false]
+  [bigDescription setBordered:false]
+  [bigDescription setFont:[NSFont systemFontOfSize:fonts.descriptionFontSize]]
+  [bigDescription setTextColor:uiColours.light.description]
+  [bigDescription setDrawsBackground:false]
+  [bigDescription setStringValue:"Shift + Arrow keys"]
+  [bigDescription sizeToFit]
+  [uiView addSubview:bigDescription]
+
+  var bigNudgeInputField = [[NSTextField alloc] initWithFrame:NSMakeRect(150, 98, inputSettings.width, inputSettings.height)]
+  [[bigNudgeInputField cell] setPlaceholderString:"0"]
+  [[bigNudgeInputField cell] setFocusRingType:NSFocusRingTypeNone]
+  [bigNudgeInputField setStringValue:savedBigValue]
+  [bigNudgeInputField setBezeled:inputSettings.hasBezel]
+  [bigNudgeInputField setBordered:inputSettings.hasBorder]
+  [[bigNudgeInputField cell] setUsesSingleLineMode:inputSettings.isSingleLine]
+  [[bigNudgeInputField cell] setWraps:inputSettings.isLineWrapping]
+  [[bigNudgeInputField cell] setScrollable:inputSettings.isScrollable]
+  [bigNudgeInputField setFont:[NSFont systemFontOfSize:inputSettings.fontSize]]
+  [bigNudgeInputField setWantsLayer:true]
+  [bigNudgeInputField setCornerRadius:inputSettings.radius]
+  [bigNudgeInputField setAlignment:inputSettings.fontAlign]
+  [bigNudgeInputField setBackgroundColor:uiColours.light.fieldBG]
+  [uiView addSubview:bigNudgeInputField]
+
+
+  // APPLY BUTTON
+  var applyButton = [[NSButton alloc] initWithFrame:NSMakeRect(12, 35, 223, 45)]
+  [applyButton setTitle:"Apply"]
+  [applyButton setBezelStyle:NSRoundedBezelStyle]
+  [applyButton setKeyEquivalent:"\r"]
+  [applyButton setFont:[NSFont systemFontOfSize:fonts.button]]
+  [applyButton setCOSJSTargetFunction:function(sender) {
+      var small = smallNudgeInputField.stringValue()
+      var big = bigNudgeInputField.stringValue()
+      sketchApp.setSettingForKey("nudgeDistanceSmall",small)
+      sketchApp.setSettingForKey("nudgeDistanceBig",big)
+      [settingsWindow orderOut:nil]
+      [NSApp stopModal]
+  }]
+  [applyButton setAction:"callAction:"]
+  [uiView addSubview:applyButton]
+  [settingsWindow setDefaultButtonCell:[applyButton cell]]
+
+
+  // CREDITS
+  var creditsView = [[NSView alloc] initWithFrame:NSMakeRect(0, 0, 250, 30)]
+  creditsView.setWantsLayer(true)
+  [[settingsWindow contentView] addSubview:creditsView]
+
+  var createdBy = [[NSTextField alloc] initWithFrame:NSMakeRect(18, 18, 250, 15)]
+  [createdBy setEditable:false]
+  [createdBy setBordered:false]
+  [createdBy setFont:[NSFont systemFontOfSize:fonts.creditsFontSize]]
+  [createdBy setTextColor:uiColours.light.creditsText]
+  [createdBy setDrawsBackground:false]
+  [createdBy setStringValue:"Created by Kevin Woodhouse"]
+  [createdBy sizeToFit]
+  [creditsView addSubview:createdBy]
+
+  // SOCIAL LINKS
+  // HOME
+  var home = resourceFolderImagePath("icon_home",".png")
+  var homeImage =  NSImage.alloc().initByReferencingFile(home)
+  var homeButton = [[NSButton alloc] initWithFrame:NSMakeRect(155, 16, 17, 14)]
+  [homeButton setTitle:nil]
+  [[homeButton cell] setBordered:false]
+  [homeButton setImage:homeImage]
+  [homeButton setCOSJSTargetFunction:function(sender) {
+      var url = [NSURL URLWithString:@"http://www.kevinwoodhouse.com/#Nudged_"+plugin.version.toFixed(1)]
+      if( ![[NSWorkspace sharedWorkspace] openURL:url] ){
+        sketchLog(@"Failed to open url:" + [url description])
+      }
+  }]
+  [homeButton setAction:"callAction:"]
+  [creditsView addSubview:homeButton]
+
+  // TWITTER
+  var twitter = resourceFolderImagePath("icon_twitter",".png")
+  var twitterImage =  NSImage.alloc().initByReferencingFile(twitter)
+  var twitterButton = [[NSButton alloc] initWithFrame:NSMakeRect(176, 16, 17, 14)]
+  [twitterButton setTitle:nil]
+  [[twitterButton cell] setBordered:false]
+  [twitterButton setImage:twitterImage]
+  [twitterButton setCOSJSTargetFunction:function(sender) {
+      var url = [NSURL URLWithString:@"http://twitter.com/Kevin_Woodhouse"]
+      if( ![[NSWorkspace sharedWorkspace] openURL:url] ){
+        sketchLog(@"Failed to open url:" + [url description])
+      }
+  }]
+  [twitterButton setAction:"callAction:"]
+  [creditsView addSubview:twitterButton]
+
+  // GITHUB
+  var github = resourceFolderImagePath("icon_github",".png")
+  var githubImage =  NSImage.alloc().initByReferencingFile(github)
+  var githubButton = [[NSButton alloc] initWithFrame:NSMakeRect(196, 16, 17, 14)]
+  [githubButton setTitle:nil]
+  [[githubButton cell] setBordered:false]
+  [githubButton setImage:githubImage]
+  [githubButton setCOSJSTargetFunction:function(sender) {
+      var url = [NSURL URLWithString:@"http://www.github.com/KevinWoodhouse/"]
+      if( ![[NSWorkspace sharedWorkspace] openURL:url] ){
+        sketchLog(@"Failed to open url:" + [url description])
+      }
+  }]
+  [githubButton setAction:"callAction:"]
+  [creditsView addSubview:githubButton]
+
+  // DRIBBBLE
+  var dribbble = resourceFolderImagePath("icon_dribbble",".png")
+  var dribbbleImage =  NSImage.alloc().initByReferencingFile(dribbble)
+  var dribbbleButton = [[NSButton alloc] initWithFrame:NSMakeRect(215, 16, 17, 14)]
+  [dribbbleButton setTitle:nil]
+  [[dribbbleButton cell] setBordered:false]
+  [dribbbleButton setImage:dribbbleImage]
+  [dribbbleButton setCOSJSTargetFunction:function(sender) {
+      var url = [NSURL URLWithString:@"http://www.dribbble.com/KevinWoodhouse"]
+      if( ![[NSWorkspace sharedWorkspace] openURL:url] ){
+        sketchLog(@"Failed to open url:" + [url description])
+      }
+  }]
+  [dribbbleButton setAction:"callAction:"]
+  [creditsView addSubview:dribbbleButton]
+
+  // RUNMODAL
+  [NSApp runModalForWindow:settingsWindow]
+}
