@@ -1,5 +1,5 @@
 // Plugin: Nudged
-// Version: 1.0
+// Version: 1.0.1
 // Description : A Sketch plugin to easily edit your nudge distance settings.
 
 // Creator: Kevin Woodhouse
@@ -11,7 +11,7 @@
 
 var plugin = {
   Name:"Nudged",
-  version: 1.0,
+  version: "1.0.1",
   githubURL: "http://www.github.com/KevinWoodhouse/sketch-nudged"
 }
 
@@ -113,14 +113,16 @@ var settingsWindow = function(context){
 
 
   // VERSION NUMBER
-  var versionNumber = [[NSTextField alloc] initWithFrame:NSMakeRect(220, 220, 20, 20)]
+  var versionNumber = [[NSText alloc] initWithFrame:NSMakeRect(180, 220, 50, 20)]
+  [versionNumber setFieldEditor:false]
+  [versionNumber alignRight:true]
   [versionNumber setEditable:false]
-  [versionNumber setBordered:false]
+  [versionNumber setRichText:true]
+  [versionNumber setFieldEditor:false]
   [versionNumber setFont:[NSFont systemFontOfSize:10]]
   [versionNumber setTextColor:uiColours.light.title]
   [versionNumber setDrawsBackground:false]
-  [versionNumber setStringValue:plugin.version.toFixed(1)]
-  [versionNumber sizeToFit]
+  [versionNumber setString:plugin.version]
   [uiView addSubview:versionNumber]
 
 
@@ -226,7 +228,7 @@ var settingsWindow = function(context){
   creditsView.setWantsLayer(true)
   [[settingsWindow contentView] addSubview:creditsView]
 
-  var createdBy = [[NSTextField alloc] initWithFrame:NSMakeRect(18, 18, 250, 15)]
+  var createdBy = [[NSTextField alloc] initWithFrame:NSMakeRect(18, 17, 250, 15)]
   [createdBy setEditable:false]
   [createdBy setBordered:false]
   [createdBy setFont:[NSFont systemFontOfSize:fonts.creditsFontSize]]
@@ -245,7 +247,7 @@ var settingsWindow = function(context){
   [[homeButton cell] setBordered:false]
   [homeButton setImage:homeImage]
   [homeButton setCOSJSTargetFunction:function(sender) {
-      var url = [NSURL URLWithString:@"http://www.kevinwoodhouse.com/#Nudged_"+plugin.version.toFixed(1)]
+      var url = [NSURL URLWithString:@"http://www.kevinwoodhouse.com/?ref=Nudged_"+plugin.version]
       if( ![[NSWorkspace sharedWorkspace] openURL:url] ){
         sketchLog(@"Failed to open url:" + [url description])
       }
@@ -261,7 +263,7 @@ var settingsWindow = function(context){
   [[twitterButton cell] setBordered:false]
   [twitterButton setImage:twitterImage]
   [twitterButton setCOSJSTargetFunction:function(sender) {
-      var url = [NSURL URLWithString:@"http://twitter.com/Kevin_Woodhouse"]
+      var url = [NSURL URLWithString:@"http://twitter.com/Kevin_Woodhouse/?ref=Nudged_"+plugin.version]
       if( ![[NSWorkspace sharedWorkspace] openURL:url] ){
         sketchLog(@"Failed to open url:" + [url description])
       }
@@ -277,7 +279,7 @@ var settingsWindow = function(context){
   [[githubButton cell] setBordered:false]
   [githubButton setImage:githubImage]
   [githubButton setCOSJSTargetFunction:function(sender) {
-      var url = [NSURL URLWithString:@"http://www.github.com/KevinWoodhouse/"]
+      var url = [NSURL URLWithString:@"http://www.github.com/KevinWoodhouse/?ref=Nudged_"+plugin.version]
       if( ![[NSWorkspace sharedWorkspace] openURL:url] ){
         sketchLog(@"Failed to open url:" + [url description])
       }
@@ -293,7 +295,7 @@ var settingsWindow = function(context){
   [[dribbbleButton cell] setBordered:false]
   [dribbbleButton setImage:dribbbleImage]
   [dribbbleButton setCOSJSTargetFunction:function(sender) {
-      var url = [NSURL URLWithString:@"http://www.dribbble.com/KevinWoodhouse"]
+      var url = [NSURL URLWithString:@"http://www.dribbble.com/KevinWoodhouse/?ref=Nudged_"+plugin.version]
       if( ![[NSWorkspace sharedWorkspace] openURL:url] ){
         sketchLog(@"Failed to open url:" + [url description])
       }

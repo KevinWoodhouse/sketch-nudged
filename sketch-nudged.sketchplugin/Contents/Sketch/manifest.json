@@ -1,12 +1,12 @@
 {
   "name" : "Nudged",
   "description" : "A Sketch plugin to easily edit your nudge distance settings.",
-  "version" : "1.0",
+  "version" : "1.0.1",
   "author" : "Kevin Woodhouse",
   "authorEmail" : "hello@kevinwoodhouse.com",
   "homepage": "https://github.com/kevinwoodhouse/sketch-nudged",
   "identifier" : "com.kevinwoodhouse.sketch-nudged",
-  "compatibleVersion": 41,
+  "compatibleVersion": 4.1,
   "bundleVersion": 1,
   "commands" : [
     {
@@ -14,7 +14,9 @@
       "handler" : "settingsWindow",
       "shortcut" : "alt cmd n",
       "name" : "Nudged",
-      "identifier" : "Nudged"
+      "identifier" : "Nudged",
+      "icon" : "nudged-icon-sr.png",
+      "description" : "Open Nudged - Edit nudge distance settings."
     }
 
   ],
