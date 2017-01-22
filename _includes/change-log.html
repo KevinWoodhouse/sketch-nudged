@@ -1,0 +1,15 @@
+<section class="change-log">
+  <div class="content">
+    <figure class="shuffle-fig">&nbsp;</figure>
+    <h2>Change log</h2>
+    <ul class="list">
+      {% for version in site.data.data.versions %}
+      <li>
+        <div class="list-block v-num">{{version.version}}</div>
+        <div class='list-block v-description'>{{version.description}}</div>
+      </li>
+      {% endfor %}
+    </ul>
+    <a href="https://github.com/KevinWoodhouse/sketch-nudged/?ref=nudged-web" target="_blank" class="btn btn-alt" id="githubBtn">View on Github</a>
+  </div>
+</section>

@@ -1,0 +1,45 @@
+{
+    "project-info":{
+      "name": "Nudged",
+      "description": "A Sketch plugin to easily edit your nudge distance settings.",
+      "url": "https://github.com/KevinWoodhouse/sketch-nudged",
+      "zip-url":"https://github.com/KevinWoodhouse/sketch-nudged/archive/master.zip"
+    },
+    "versions": [{
+        "version": "v1.0.1",
+        "description": "Added integration with Sketch Runner",
+        "url": "https://github.com/KevinWoodhouse/sketch-nudged"
+    },{
+      "version": "v1.0",
+      "description": "First Release",
+      "url": "https://github.com/KevinWoodhouse/sketch-nudged"
+    }],
+    "featured-on": [{
+        "site-name": "Sketch App",
+        "image": "img/featured-on/sketch-logo.png",
+        "url": "https://www.sketchapp.com/extensions/plugins/"
+    },{
+        "site-name": "Product Hunt",
+        "image": "img/featured-on/product-hunt-logo.png",
+        "url": "https://www.producthunt.com/"
+    },{
+        "site-name": "Sketch Hunt",
+        "image": "img/featured-on/sketch-hunt-logo.png",
+        "url": "http://sketchhunt.com/2017/01/10/nudged-sketch-plugin-easily-edit-nudge-distance-settings/"
+    },{
+        "site-name": "Sketch App Sources",
+        "image": "img/featured-on/sketch-app-sources-logo.png",
+        "url": "https://www.sketchappsources.com/plugins-for-sketch.html"
+    },{
+        "site-name": "Awsome-sket.ch",
+        "image": "img/featured-on/awesome-sketch-logo.png",
+        "url": "https://awesome-sket.ch/"
+    },{
+        "site-name": "Your Site Here",
+        "image": "img/featured-on/your-logo.png",
+        "url": "#"
+    }],
+    "presskit": [{
+        "url": "https://github.com/KevinWoodhouse/sketch-nudged-presskit"
+    }]
+}

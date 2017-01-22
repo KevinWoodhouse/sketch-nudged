@@ -1,0 +1,110 @@
+*,
+*:after,
+*:before
+  @include box-sizing(border-box)
+  -webkit-transform: rotateZ(360deg)
+  transform: rotateZ(360deg)
+
+html,body
+  width: 100%
+  height: 100%
+  font-family: $para-font-family
+  font-size: $small-font-size
+  line-height: $small-line-height
+  font-weight: 300
+  @media #{$medium-up}
+    font-size: $medium-font-size
+    line-height: $medium-line-height
+  @media #{$large-up}
+    font-size: $large-font-size
+    line-height: $large-line-height
+
+body
+  background-color: #EFEFEF
+  @include background-image-retina("../img/rpt-body", "png", 250px, 136px)
+  background-repeat: repeat
+  background-attachment: fixed
+  background-position: top
+  // animation: animatedBackground $bg-ani-time linear infinite
+
+section
+  background-color: none!important
+
+section,footer
+  height: auto
+  overflow: auto
+  overflow: hidden
+  padding: $padding-small
+  padding-top: $padding-top-small
+  @media #{$medium-up}
+    padding: $padding-medium
+    padding-top: $padding-top-medium
+  @media #{$large-up}
+    padding: $padding-large
+    padding-top: $padding-top-large
+
+footer
+  padding: 0px
+  .content
+    padding: $padding-small
+    padding-top: 10px
+    padding-bottom: 0px
+    @media #{$medium-up}
+      padding: $padding-medium
+      padding-top: 20px
+      padding-bottom: 0px
+    @media #{$large-up}
+      padding: $padding-large
+      padding-top: 40px
+      padding-bottom: 0px
+
+header,.content
+  width: 100%
+  max-width: $max-content-width
+  margin: 0px auto
+  clear: both
+
+
+header
+  max-width: 650px
+
+footer
+  display: block
+  clear: both
+
+p
+  text-align: center
+  @media #{$large-up}
+    text-align: left
+ul
+  margin-bottom: 20px
+
+hr
+  border: 0
+  height: 0
+  border-top: 1px solid rgba(0, 0, 0, 0.1)
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3)
+  margin: 30px 25%
+
+
+figure img.sr
+  position: relative
+  margin-bottom: -20px
+  height: 170px
+  width: 680px
+  @media #{$medium-up}
+    right: 0px
+    left: 0px
+    margin: 20px auto -10px auto
+    max-width: 680px
+    display: block
+
+
+figcaption
+  color: #a9a9a9
+  margin-bottom: 20px
+  text-align: right
+  font-size: em(14)
+  @media #{$medium-up}
+    text-align: center
+    font-size: em(12)

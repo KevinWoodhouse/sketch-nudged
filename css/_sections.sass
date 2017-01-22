@@ -1,0 +1,226 @@
+.hero
+  background-color: $main-colour
+  color: white
+  padding-top: 40px
+  @include background-image-retina("../img/rpt-hero", "png", 250px, 136px)
+  background-repeat: repeat
+  background-position: top
+  background-attachment: fixed
+  // animation: animatedBackground $bg-ani-time linear infinite
+  h1
+    @media #{$large-up}
+      float: left
+      margin-top: 40px
+    &::before
+      display: block
+      width: 80px
+      height: 80px
+      content: " "
+      @include background-image-retina("../img/sprites", "png", 400px, 400px)
+      background-image: url("../img/sprites.svg")
+      background-position: 0px -100px
+      position: relative
+      margin: 10px auto
+      margin-bottom: 20px
+      animation: pulse $sketch-diamond-ani-time linear infinite
+      @media #{$large-up}
+  p
+    font-size: em(20)
+    text-align: center
+    @media #{$large-up}
+      max-width: 350px
+      text-align: left
+      float: left
+      clear: left
+  .download-info
+    @media #{$large-up}
+      text-align: left
+      float: left
+      .download-btn
+        width: 300px
+    .req
+      color: rgba(255,255,255,0.7)
+      margin-top: -10px
+      font-size: em(13)
+      @media #{$large-up}
+        text-align: center
+        width: 100%
+
+.nudged-plugin-hero-img
+  width: 100%
+  max-width: 300px
+  display: block
+  margin: 40px auto
+  @media #{$large-up}
+    width: 50%
+    max-width: 300px
+    float: right
+    // margin-top: -148px
+    margin-top: -155px
+
+.releases,.change-log
+  color: $grey-colour-1
+
+.featured-on
+
+//featured-on list
+ul.square-grid-list
+  margin-bottom: 40px
+  @include clearfix()
+  li
+    background: #fff
+    display: block
+    float: left
+    width: calc(50% - 20px)
+    margin: 10px
+    height: auto
+    @include border-radius(7px)
+    box-shadow: 0px 0px 20px #ccc
+    font-size: em(11)
+    line-height: em(29)
+    @media only screen and (min-width: 410px)
+      font-size: em(12)
+    @media #{$medium-up}
+      margin: 20px
+      width: calc(33.33333% - 40px)
+      font-size: em(12)
+      line-height: em(29)
+    &:hover
+      transition: all 100ms ease-in
+      transform: scale(1.05)
+      box-shadow: 0px 5px 30px #ccc
+    img
+      width: 100%
+      height: auto
+      @include border-radius(7px 7px 0px 0px)
+      border-bottom: 1px solid #ececec
+    span
+      height: 30px
+      width: 100%
+      font-weight: 700
+      display: block
+      color: black
+      text-align: center
+    a
+      text-decoration: none
+
+.share
+
+.project-by
+  border-top: 10px solid transparent
+  -moz-border-image: -moz-linear-gradient(left, #3023AE 0%, #53A0FD 50%, #B4EC51 100%)
+  -webkit-border-image: -webkit-linear-gradient(left, #3023AE 0%, #53A0FD 50%, #B4EC51 100%)
+  border-image: linear-gradient(to right, #3023AE 0%, #53A0FD 50%, #B4EC51 100%)
+  border-image-slice: 1
+  background-color: darken(white,10%)
+  @include background-image-retina("../img/rpt-footer", "png", 250px, 136px)
+  background-repeat: repeat
+  background-attachment: fixed
+  background-position: top
+  // animation: animatedBackground $bg-ani-time linear infinite
+  p
+    text-align: center
+    margin-bottom: 10px
+
+  img.avatar
+    display: block
+    width: 100px
+    height: 100px
+    margin: 20px auto
+    @media #{$large-up}
+      width: 125px
+      height: 125px
+
+  .bio
+    margin-top: 30px
+    font-weight: 300
+    @media #{$medium-up}
+      font-size: $medium-font-size
+      line-height: $medium-line-height
+    @media #{$large-up}
+      font-size: $large-font-size
+      line-height: $large-line-height
+
+  .social
+    height: auto
+    clear: both
+    text-align: center
+    padding: 10px
+    display: block
+    @media #{$medium-up}
+      margin-bottom: 10px
+  .credits
+    height: auto
+    width: 100%
+    clear: both
+    padding: 5px
+    display: block
+    font-size: em(11)
+    line-height: 15px
+    padding: 10px
+    padding-bottom: 15px
+    color: #000
+    text-align: center
+    @media only screen and (min-width: 360px)
+      font-size: em(14)
+    em
+      text-indent: -99999px
+      display: inline-block
+      &::after
+        font-size: em(10)
+        color: #FF0061
+        width: 10px
+        height: 10px
+        content: "\2665"
+        line-height: initial
+        text-indent: 0
+        display: block
+        position: relative
+
+.question-fig,.cloud-fig,.megaphone-fig,.eye-fig,.box-fig,.shuffle-fig,.code-fig
+  @include background-image-retina("../img/sprites", "png", 400px, 400px)
+  background-image: url("../img/sprites.svg")
+  margin: 20px auto -40px auto
+  display: block
+  @media #{$medium-up}
+    margin: 20px auto -10px auto
+.question-fig
+  width: 70px
+  height: 100px
+  background-position: -80px -80px
+
+.cloud-fig
+  width: 130px
+  height: 100px
+  background-position: -150px -80px
+
+.megaphone-fig
+  width: 117px
+  height: 100px
+  background-position: -284px -80px
+
+.eye-fig
+  width: 100px
+  height: 100px
+  background-position: -280px -200px
+
+.box-fig
+  width: 140px
+  height: 100px
+  background-position: -120px -200px
+
+.shuffle-fig
+  width: 120px
+  height: 100px
+  background-position: 0px -200px
+
+.code-fig
+  width: 120px
+  height: 100px
+  background-position: 0px -300px
+
+
+
+mark
+  padding: 3px 5px
+  background-color: transparentize(yellow, 0.6)

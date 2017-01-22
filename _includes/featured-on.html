@@ -1,0 +1,25 @@
+<section class="featured-on">
+  <div class="content">
+    <figure class="eye-fig">&nbsp;</figure>
+    <h2>Featured On</h2>
+    <ul class="square-grid-list">
+      {% for featured in site.data.data.featured-on %}
+      <li>
+        <a href="{{ featured.url }}" rel="nofollow" target="_blank" class="featured-link">
+          <img src="{{ featured.image }}"/>
+          <span>{{ featured.site-name }}</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section class="the-word">
+  <div class="content">
+    <figure class="box-fig">&nbsp;</figure>
+    <h2>PressKit</h2>
+    <p>I've created this handy <strong>PressKit</strong> that contains a bunch of Info, Icons, Screenshots, and some useful links.</p>
+    <a href="{{ site.url }}/presskit/nudged-presskit.zip" target="_blank" class="btn btn-alt" id="pressKitBtn">Download PressKit</a>
+  </div>
+</section>

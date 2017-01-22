@@ -1,0 +1,30 @@
+$browser-context: 16
+@function em($pixels, $context: $browser-context)
+  @return #{$pixels/$context}em
+
+@mixin clearfix()
+  &:before,
+  &:after
+    content: ""
+    display: table
+  &:after
+    clear: both
+
+@mixin box-sizing($box-model)
+  -webkit-box-sizing: $box-model
+  -moz-box-sizing: $box-model
+  box-sizing: $box-model
+
+@mixin border-radius($radius)
+  -webkit-border-radius: $radius
+  border-radius: $radius
+  background-clip: padding-box
+
+@mixin background-image-retina($file, $type, $width, $height)
+  background-image: url($file + '.' + $type)
+  @media #{$retina}
+    background-image: url($file + '@2x.' + $type)
+    -webkit-background-size: $width $height
+    -moz-background-size: $width $height
+    -o-background-size: $width $height
+    background-size: $width $height

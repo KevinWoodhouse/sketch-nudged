@@ -1,0 +1,37 @@
+ul.list
+  margin: 20px 0px 40px 0px
+
+ul.list li
+  display: inline-block
+  // margin-bottom: 20px
+  margin: 10px auto 0px auto
+  width: 100%
+  padding: 0px
+
+  // padding-bottom: 20px
+.list-block
+  border: 1px solid #ececec
+  background-color: white
+  @include border-radius(7px)
+  display: inline-block
+  padding: 10px
+  vertical-align: top
+  @media #{$medium-up}
+    padding: 20px
+  @media #{$large-up}
+
+ul.list li:first-child
+//
+.v-num
+  text-align: center
+  width: $v-num-min-width
+  min-width: $v-num-min-width
+  margin-right: $v-num-margin
+.v-description
+  text-align: left
+  width: calc(100% - (#{$v-num-min-width} + #{$v-num-margin} + 5px))
+  margin: 0px
+.v-zip
+  width: $v-num-min-width
+  min-width: $v-num-min-width
+  margin-left: $v-num-margin

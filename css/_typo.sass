@@ -1,0 +1,62 @@
+@font-face
+  font-family: 'Big John'
+  font-weight: normal
+  font-style: normal
+  src: url('../fonts/BigJohn.eot')
+  src: url('../fonts/BigJohn.eot?#iefix') format('embedded-opentype'),url('../fonts/BigJohn.woff') format('woff'),url('../fonts/BigJohn.ttf') format('truetype')
+
+h1,h2,h3,h4
+  text-transform: capitalize
+  text-align: center
+  font-family: $para-font-family
+  // font-weight: 900
+  font-weight: 300
+  // color: $dark-text-colour
+  color: $main-colour
+  margin-bottom: 30px
+  margin-top: 50px
+  // text-align: left
+  @media #{$medium-up}
+    margin-bottom: 30px
+    margin-top: 30px
+  @media #{$large-up}
+    margin-top: 20px
+
+h1
+  font-family: $heading-font-family
+  font-weight: 900
+  text-transform: uppercase
+  font-size: em(50)
+  color: $light-text-colour
+  margin-bottom: 40px
+  margin-top: 10px
+  @media #{$medium-up}
+    font-size: em(48)
+  @media #{$large-up}
+    font-size: em(60)
+
+
+h2
+  font-size: em(22)
+
+h3
+  font-size: em(20)
+
+h4
+  font-size: em(15)
+
+strong
+  font-weight: 700
+
+a
+  font-weight: 700
+  color: $main-colour
+  text-decoration: none
+  &:hover
+    text-decoration: underline
+
+p
+  margin-bottom: 20px
+  text-align: left
+  @media #{$medium-up}
+    margin-bottom: 15px

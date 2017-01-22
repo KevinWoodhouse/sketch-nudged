@@ -1,0 +1,14 @@
+---
+---
+Sitemap: {{ site.url }}/sitemap.xml
+
+User-agent: Twitterbot
+Disallow: *
+Allow: /img/social/*
+
+User-agent: *
+Disallow: /img/
+Disallow: /fonts/
+Disallow: /presskit/
+Disallow: /js/
+Allow: /img/social/*

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include meta.html %}
+    <!-- styles -->
+    <link rel="stylesheet" type="text/css" href="{{ site.url }}/css/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700" rel="stylesheet">
+    <!-- scripts  -->
+    {% include analytics.html %}
+    <script type="text/javascript" src="{{ site.url }}/js/nudged-scripts.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      {% include hero.html %}
+      {% include about.html %}
+      {% include install.html %}
+      {% include change-log.html %}
+      {% include share.html %}
+      {% include featured-on.html %}
+      {% include project-by.html %}
+    </div>
+  </body>
+</html>

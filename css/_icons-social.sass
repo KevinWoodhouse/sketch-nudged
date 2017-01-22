@@ -1,0 +1,29 @@
+$sprite-grid-size: 40px
+
+.social-icon
+  text-indent: -99999px
+  display: inline-block
+  width: $sprite-grid-size
+  height: $sprite-grid-size
+  @include background-image-retina("../img/sprites", "png", 400px, 400px)
+  background-image: url("../img/sprites.svg")
+  background-origin: border-box
+  margin: 5px
+  transition: all 0.5s
+  &:hover
+    opacity: 0.7
+  @media #{$medium-up}
+    margin: 10px
+  @media #{$large-up}
+    margin: 5px
+
+.icon-home
+  background-position: 0px 0px
+.icon-linkedin
+  background-position: -160px 0px
+.icon-twitter
+  background-position: -40px 0px
+.icon-github
+  background-position: -80px 0px
+.icon-dribbble
+  background-position: -120px 0px
