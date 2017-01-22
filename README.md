@@ -1,3 +1,5 @@
+**[Check out the Nudged website](https://kevinwoodhouse.github.io/sketch-nudged/?ref=github-project)**
+
 <img src="https://raw.githubusercontent.com/kevinwoodhouse/sketch-Nudged/master/sketch-nudged-hero.png" width="100%"><img src="https://raw.githubusercontent.com/kevinwoodhouse/sketch-Nudged/master/sketch-nudged-hero-sr.png" width="100%">
 
 # Nudged
@@ -29,12 +31,12 @@ Use standard Sketch App keys to Nudge objects around:
 ### Log:
 | Version | Notes |
 | --- | --- |
-| **v1.0** |  First Release. |
 | **v1.0.1** | Added integration with [Sketch Runner](http://sketchrunner.com/?ref=sketch-nudged-github). |
+| **v1.0** |  First Release. |
 
 ### Feedback & Help
 
-Found a bug? Please [submit a new issues](https://github.com/KevinWoodhouse/sketch-nudged/issues) on here on GitHub.
+Found a bug? Please [submit a new issues](https://github.com/KevinWoodhouse/sketch-nudged/issues) here on GitHub.
 
 ### License
 Sketch Nudged is released under the MIT license.  
