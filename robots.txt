@@ -3,7 +3,7 @@
 Sitemap: {{ site.url }}sitemap.xml
 
 User-agent: Twitterbot
-Disallow: *
+Disallow:
 Allow: /img/social/*
 
 User-agent: *
