@@ -1,6 +1,6 @@
 ---
 ---
-Sitemap: {{ site.url }}/sitemap.xml
+Sitemap: {{ site.url }}sitemap.xml
 
 User-agent: Twitterbot
 Disallow: *
