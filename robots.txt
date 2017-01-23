@@ -7,8 +7,8 @@ Disallow:
 Allow: /img/social/*
 
 User-agent: *
-Disallow: /img/
-Disallow: /fonts/
-Disallow: /presskit/
-Disallow: /js/
+Disallow: /img/*
+Disallow: /fonts/*
+Disallow: /presskit/*
+Disallow: /js/*
 Allow: /img/social/*
