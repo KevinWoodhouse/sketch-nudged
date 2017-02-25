@@ -5,7 +5,8 @@ window.onload = function(){
       githubBtn = document.getElementById("githubBtn"),
       pressKitBtn = document.getElementById("pressKitBtn"),
       featuredLinks = document.getElementsByClassName("featured-link"),
-      socialLinks = document.getElementsByClassName("social-icon");
+      socialLinks = document.getElementsByClassName("social-icon"),
+      shareLinks = document.getElementsByClassName("shareLink");
 
   downloadBtn.addEventListener("click", handleDownloadClicks);
   downloadLink.addEventListener("click", handleDownloadClicks);
@@ -19,6 +20,11 @@ window.onload = function(){
   for(i=0; i<socialLinks.length; i++) {
     socialLinks[i].addEventListener("click", handleSocialLinkClicks);
   }
+
+  for(i=0; i<shareLinks.length; i++) {
+    shareLinks[i].addEventListener("click", handleShareLinkClicks);
+  }
+
 
   function handleGithubClicks(event) {
     ga('send', 'event', {
@@ -63,4 +69,17 @@ window.onload = function(){
       event.preventDefault();
     }
   }
+
+  function handleShareLinkClicks(event) {
+    ga('send', 'event', {
+      eventCategory: 'share link',
+      eventAction: 'click',
+      eventLabel: event.target.href
+    });
+    event.preventDefault();
+    //popup window please
+    window.open(this.href, 'Share','left=100,top=50,width=500,height=300,toolbar=0,resizable=0');
+    return false;
+  }
+
 }
