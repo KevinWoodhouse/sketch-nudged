@@ -35,6 +35,10 @@
         "image": "img/featured-on/awesome-sketch-logo.png",
         "url": "https://awesome-sket.ch/"
     },{
+        "site-name": "Sketchapp.rocks",
+        "image": "img/featured-on/sketchapp-rocks-logo.png",
+        "url": "http://sketchapp.rocks/plugins/nudged-plugin/"
+    },{
         "site-name": "Your Site Here",
         "image": "img/featured-on/your-logo.png",
         "url": "#"
