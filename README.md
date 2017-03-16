@@ -1,3 +1,7 @@
+<a href="https://sketchpacks.com/KevinWoodhouse/sketch-nudged/install">
+  <img width="160" height="41" src="http://sketchpacks-com.s3.amazonaws.com/assets/badges/sketchpacks-badge-install.png" >
+</a>
+
 **[Check out the Nudged website](https://kevinwoodhouse.github.io/sketch-nudged/?ref=github-project)**
 
 <img src="https://raw.githubusercontent.com/kevinwoodhouse/sketch-Nudged/master/sketch-nudged-hero.png" width="100%"><img src="https://raw.githubusercontent.com/kevinwoodhouse/sketch-Nudged/master/sketch-nudged-hero-sr.png" width="100%">
