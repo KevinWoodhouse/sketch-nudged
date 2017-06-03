@@ -22,18 +22,24 @@ Bring up the Nudged Settings Window either from the *Plugin menu* or via *keyboa
 These are global settings, so adjust on the fly for each Sketch project's use case.
 
 ### Keyboard Shortcuts
-You can quickly access the Nudged Settings Window by using the keyboard shortcut <kbd>Alt</kbd> + <kbd>Cmd</kbd> + <kbd>n</kbd>.
+You can quickly access the Nudged Settings Window by using the keyboard shortcut <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>n</kbd>.
 
 Use standard Sketch App keys to Nudge objects around:
 
 **Small Nudge** : <kbd>Arrow Keys</kbd>  
-**Big Nudge** : <kbd>Shift</kbd> + <kbd>Arrow Keys</kbd>
+**Big Nudge** : <kbd>Shift</kbd> + <kbd>Arrow Keys</kbd>  
+**Custom Nudge** : <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>Arrow Keys</kbd>
+
+**Reset to Sketch's nudge defaults** : <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>0</kbd>
 
 ### Log:
 | Version | Notes |
 | --- | --- |
+| **v2.0** | Changed Plugin Shortcut to Ctrl + Alt + n.<br/>Added Custom Nudge input.<br/>Added smarter UI with a number of usability enhancements.<br/>Added 'Reset' button to settings window.<br/>Added Quick Reset Shortcut Ctrl + Alt + 0.<br/>Added integration with Sketch App's Update System.
 | **v1.0.1** | Added integration with [Sketch Runner](http://sketchrunner.com/?ref=sketch-nudged-github). |
 | **v1.0** |  First Release. |
+
+Full List of changes can be found on the [Nudge Website](https://kevinwoodhouse.github.io/sketch-nudged/?ref=github-project)
 
 ### Integrations
 

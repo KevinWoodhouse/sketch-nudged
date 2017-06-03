@@ -1,308 +1,470 @@
-// Plugin: Nudged
-// Version: 1.0.1
-// Description : A Sketch plugin to easily edit your nudge distance settings.
+/*
+  Project: Nudged - A Sketch Plugin to easily edit your nudge distance settings.
+  Author: Kevin Woodhouse
+  Twitter: @Kevin_Woodhouse
+  Web: www.kevinwoodhouse.com
+  -----------------------------
+  Twitter: @SketchNudged
+  Support: https://kevinwoodhouse.github.io/sketch-nudged/
+  Version: 2.0 - Mocha Frappuccino
+*/
 
-// Creator: Kevin Woodhouse
-// Site   : http://www.kevinwoodhouse.com
-// Project: https://www.github.com/KevinWoodhouse/sketch-nudged/
-// Twitter: @Kevin_Woodhouse
-// Licence: MIT
+var index$1 = function (selectorHandlerDict, superclass) {
+  var uniqueClassName = 'MochaJSDelegate_DynamicClass_' + NSUUID.UUID().UUIDString();
+  var delegateClassDesc = MOClassDescription.allocateDescriptionForClassWithName_superclass_(uniqueClassName, superclass || NSObject);
+  delegateClassDesc.registerClass();
+  // Storage Handlers
+  var handlers = {};
+  // Define interface
+  this.setHandlerForSelector = function (selectorString, func) {
+    var handlerHasBeenSet = selectorString in handlers;
+    var selector = NSSelectorFromString(selectorString);
+    handlers[selectorString] = func;
+    if (!handlerHasBeenSet) {
+      var args = [];
+      var regex = /:/g;
+      while (regex.exec(selectorString)) {
+        args.push('arg' + args.length);
+      }
+      var dynamicFunction = eval('(function (' + args.join(', ') + ') { return handlers[selectorString].apply(this, arguments); })');
+      delegateClassDesc.addInstanceMethodWithSelector_function_(selector, dynamicFunction);
+    }
+  };
 
+  this.removeHandlerForSelector = function (selectorString) {
+    delete handlers[selectorString];
+  };
 
-var plugin = {
-  Name:"Nudged",
-  version: "1.0.1",
-  githubURL: "http://www.github.com/KevinWoodhouse/sketch-nudged"
+  this.getHandlerForSelector = function (selectorString) {
+    return handlers[selectorString];
+  };
+
+  this.getAllHandlers = function () {
+    return handlers;
+  };
+
+  this.getClass = function () {
+    return NSClassFromString(uniqueClassName);
+  };
+
+  this.getClassInstance = function () {
+    return NSClassFromString(uniqueClassName).new();
+  };
+
+  // Convenience
+  if (typeof selectorHandlerDict === 'object') {
+    for (var selectorString in selectorHandlerDict) {
+      this.setHandlerForSelector(selectorString, selectorHandlerDict[selectorString]);
+    }
+  }
+};
+
+var parseQuery = function (query) {
+  query = query.split('?')[1];
+  if (!query) {
+    return;
+  }
+  query = query.split('&').reduce(function (prev, s) {
+    var res = s.split('=');
+    if (res.length === 2) {
+      prev[decodeURIComponent(res[0])] = decodeURIComponent(res[1]);
+    }
+    return prev;
+  }, {});
+  return query;
+};
+
+var coScript = COScript.currentCOScript();
+var LOCATION_CHANGED = 'webView:didChangeLocationWithinPageForFrame:';
+
+function WebUI(context, htmlName, options) {
+  // ColorPicker main window
+  var identifier = options.identifier || NSUUID.UUID().UUIDString();
+  var threadDictionary = NSThread.mainThread().threadDictionary();
+  var backgroundColor = options.background || NSColor.whiteColor();
+  var panel = threadDictionary[identifier] ? threadDictionary[identifier] : NSPanel.alloc().init();
+
+  // Window size
+  panel.setFrame_display(NSMakeRect(options.x || 0, options.y || 0, options.width || 240, options.height || 180), true);
+
+  panel.setStyleMask(options.styleMask || NSTexturedBackgroundWindowMask | NSTitledWindowMask | NSClosableWindowMask);
+  panel.setBackgroundColor(backgroundColor);
+
+  if (options.onlyShowCloseButton) {
+    panel.standardWindowButton(NSWindowMiniaturizeButton).setHidden(true);
+    panel.standardWindowButton(NSWindowZoomButton).setHidden(true);
+  }
+
+  // Titlebar
+  panel.setTitle(options.title || context.plugin.name());
+  if (options.hideTitleBar) {
+    panel.setTitlebarAppearsTransparent(true);
+  }
+
+  panel.becomeKeyWindow();
+  panel.setLevel(NSFloatingWindowLevel);
+
+  threadDictionary[identifier] = panel;
+
+  if (options.shouldKeepAround !== false) {
+    // Long-running script
+    coScript.setShouldKeepAround(true);
+  }
+
+  // Add Web View to window
+  var webView = WebView.alloc().initWithFrame(NSMakeRect(0, options.hideTitleBar ? -24 : 0, options.width || 240, (options.height || 180) - (options.hideTitleBar ? 0 : 24)));
+
+  if (options.frameLoadDelegate || options.handlers) {
+    var handlers = options.frameLoadDelegate || {};
+    if (options.handlers) {
+      var lastQueryId;
+      handlers[LOCATION_CHANGED] = function (webview, frame) {
+        var query = webview.windowScriptObject().evaluateWebScript('window.location.hash');
+        query = parseQuery(query);
+        if (query.pluginAction && query.actionId && query.actionId !== lastQueryId && query.pluginAction in options.handlers) {
+          lastQueryId = query.actionId;
+          try {
+            query.pluginArgs = JSON.parse(query.pluginArgs);
+          } catch (err) {}
+          options.handlers[query.pluginAction].apply(context, query.pluginArgs);
+        }
+      };
+    }
+    var frameLoadDelegate = new index$1(handlers);
+    webView.setFrameLoadDelegate_(frameLoadDelegate.getClassInstance());
+  }
+  if (options.uiDelegate) {
+    var uiDelegate = new index$1(options.uiDelegate);
+    webView.setUIDelegate_(uiDelegate.getClassInstance());
+  }
+
+  webView.setOpaque(true);
+  webView.setBackgroundColor(backgroundColor);
+  webView.setMainFrameURL_(context.plugin.urlForResourceNamed(htmlName).path());
+
+  panel.contentView().addSubview(webView);
+  panel.center();
+  panel.makeKeyAndOrderFront(null);
+
+  return {
+    panel: panel,
+    eval: webView.stringByEvaluatingJavaScriptFromString,
+    webView: webView
+  };
 }
 
-var settings = {
-  identifier: 'com.kevinwoodhouse.sketch-nudged',
-  windowWidth: 250,
-  windowHeight: 265,
-  theme:"light",
-  dev: false
+WebUI.clean = function () {
+  coScript.setShouldKeepAround(false);
+};
+
+var index = WebUI;
+var kUUIDKey = 'google.analytics.uuid';
+var uuid = NSUserDefaults.standardUserDefaults().objectForKey(kUUIDKey);
+if (!uuid) {
+  uuid = NSUUID.UUID().UUIDString();
+  NSUserDefaults.standardUserDefaults().setObject_forKey(uuid, kUUIDKey);
 }
 
-var fonts = {
-  fontName: "",
-  useCustomFont: false,
-  titleFontSize: 13,
-  descriptionFontSize: 10,
-  creditsFontSize: 9,
-  button:15
+function jsonToQueryString(json) {
+  return '?' + Object.keys(json).map(function (key) {
+    return encodeURIComponent(key) + '=' + encodeURIComponent(json[key]);
+  }).join('&');
 }
 
-var uiColours = {
-  light: {
-    titleBar: [NSColor colorWithCalibratedRed:(230/255) green:(230/255) blue:(230/255) alpha:1]],
-    bg: [NSColor colorWithCalibratedRed:(245/255) green:(245/255) blue:(245/255) alpha:1]],
-    button: [NSColor colorWithCalibratedRed:(14/255) green:(122/255) blue:(254/255) alpha:1]],
-    buttonLabel: [NSColor colorWithCalibratedRed:(255/255) green:(255/255) blue:(255/255) alpha:1]],
-    title: [NSColor colorWithCalibratedRed:(67/255) green:(67/255) blue:(67/255) alpha:1]],
-    description: [NSColor colorWithCalibratedRed:(100/255) green:(100/255) blue:(100/255) alpha:1]],
-    fieldBG: [NSColor colorWithCalibratedRed:(215/255) green:(215/255) blue:(215/255) alpha:1]],
-    fieldBorder: [NSColor colorWithCalibratedRed:(67/255) green:(67/255) blue:(67/255) alpha:1]],
-    creditsText: [NSColor colorWithCalibratedRed:(95/255) green:(95/255) blue:(95/255) alpha:1]]
+var index$3 = function (context, trackingId, hitType, props) {
+  var payload = {
+    v: 1,
+    tid: trackingId,
+    ds: 'Sketch%20' + NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString"),
+    cid: uuid,
+    t: hitType,
+    an: context.plugin.name(),
+    aid: context.plugin.identifier(),
+    av: context.plugin.version()
+  };
+  if (props) {
+    Object.keys(props).forEach(function (key) {
+      payload[key] = props[key];
+    });
+  }
+
+  var url = NSURL.URLWithString(NSString.stringWithFormat("https://www.google-analytics.com/collect%@", jsonToQueryString(payload)));
+
+  if (url) {
+    NSURLSession.sharedSession().dataTaskWithURL(url).resume();
+  }
+};
+
+const SUITE_PREFIX = 'com.kevinwoodhouse.';
+const pluginName = 'SketchNudged';
+const defaultPrefs = {
+  SendAnalytics: true,
+  CustomNudgedValue: 20
+};
+
+function isPresent(data) {
+  return data != null;
+}
+
+function getUserPreferences() {
+  var prefs = {}
+  var store = NSUserDefaults.alloc().initWithSuiteName(SUITE_PREFIX + pluginName)
+    Object.keys(defaultPrefs).forEach(function (k) {
+    if (typeof defaultPrefs[k] === 'boolean') {
+      prefs[k] = isPresent(store.objectForKey(k)) ? Boolean(store.boolForKey(k)) : defaultPrefs[k]
+    } else if (typeof defaultPrefs[k] === 'number') {
+      prefs[k] = isPresent(store.objectForKey(k)) ? store.doubleForKey(k) : defaultPrefs[k]
+    } else if (typeof defaultPrefs[k] === 'string') {
+      prefs[k] = isPresent(store.objectForKey(k)) ? store.stringForKey(k) : defaultPrefs[k]
+    } else if (Array.isArray(defaultPrefs[k])) {
+      prefs[k] = isPresent(store.objectForKey(k)) ? store.arrayForKey(k) : defaultPrefs[k]
+    } else {
+      prefs[k] = isPresent(store.objectForKey(k)) ? store.dictionaryForKey(k) : defaultPrefs[k]
+    }
+  })
+  return prefs
+}
+
+function setUserPreferences(prefs) {
+  var store = NSUserDefaults.alloc().initWithSuiteName(SUITE_PREFIX + pluginName);
+  Object.keys(prefs).forEach(function (k) {
+    if (typeof prefs[k] === 'boolean') {
+      store.setBool_forKey(prefs[k], k);
+    } else if (typeof prefs[k] === 'number') {
+      store.setDouble_forKey(prefs[k], k);
+    } else {
+      store.setObject_forKey(prefs[k], k);
+    }
+  });
+  store.synchronize();
+}
+
+//.......................................//
+
+// general functions
+function userDefaultsFromKey(key) {
+  return NSUserDefaults.standardUserDefaults().objectForKey(key);
+}
+
+const gaID = 'UA-90355443-2';
+const { SendAnalytics } = getUserPreferences();
+log('[ Nudged ] - SendAnalytics? ' + SendAnalytics);
+
+function sendEvent(context, category, action, label, value) {
+  if (!SendAnalytics) {
+    return;
+  }
+  const payload = {};
+  if (category) {
+    payload.ec = category;
+  }
+  if (action) {
+    payload.ea = action;
+  }
+  if (label) {
+    payload.el = label;
+  }
+  if (value) {
+    payload.ev = value;
+  }
+  return index$3(context, gaID, 'event', payload);
+}
+
+function sendScreenView(context, screenName) {
+  if (!SendAnalytics) {
+    return;
+  }
+  const payload = {};
+  if (screenName) {
+    payload.cd = screenName;
+  }
+  return index$3(context, gaID, 'screenview', payload);
+}
+
+function openUrlInBrowser(url, ref = null) {
+  if (ref) {
+    var refURL = url + '?ref=' + ref;
+    NSWorkspace.sharedWorkspace().openURL(NSURL.URLWithString(refURL));
+  } else {
+    NSWorkspace.sharedWorkspace().openURL(NSURL.URLWithString(url));
   }
 }
 
-var inputSettings = {
-  radius: 4,
-  width: 46,
-  height: 25,
-  fontSize: 20,
-  fontAlign: NSCenterTextAlignment,
-  hasBezel: false,
-  hasBorder: false,
-  isSingleLine: true,
-  isLineWrapping: false,
-  isScrollable: true
+function hexToNSColor(hex) {
+  var r = parseInt(hex.substring(0, 2), 16) / 255,
+      g = parseInt(hex.substring(2, 4), 16) / 255,
+      b = parseInt(hex.substring(4, 6), 16) / 255,
+      a = 1;
+  return NSColor.colorWithRed_green_blue_alpha(r, g, b, a);
 }
 
+// ------------------------ //
 
+// OnRun
+var onRun = function (context) {
+  let prefs = getUserPreferences();
+  let { CustomNudgedValue } = getUserPreferences();
 
+  let nudgeValues = {
+    small: userDefaultsFromKey('nudgeDistanceSmall'),
+    big: userDefaultsFromKey('nudgeDistanceBig'),
+    custom: CustomNudgedValue
+  };
 
-// SETTINGS WINDOW
-var settingsWindow = function(context){
-  // get api from context
-  var sketchApp = context.api().Application()
-  var sketch = context
-  // get saved nudge distance settings
-  var savedSmallValue = sketchApp.settingForKey("nudgeDistanceSmall")
-  var savedBigValue = sketchApp.settingForKey("nudgeDistanceBig")
+  const PluginConfig = {
+    pluginWidth: 272,
+    pluginHeight: 324,
+    pluginWindowColor: 'EFEFEF'
+  };
 
-  // CREATE WINDOW
-  var settingsWindow = [[NSPanel alloc] init]
-  [settingsWindow setFrame:NSMakeRect(0, 0, settings.windowWidth, settings.windowHeight) display:true]
-  [settingsWindow setBackgroundColor:uiColours.light.titleBar]
-  [settingsWindow setTitlebarAppearsTransparent:true]
-  [settingsWindow setTitleVisibility:NSWindowTitleHidden]
-  [settingsWindow setMovableByWindowBackground:true]
-  [[settingsWindow standardWindowButton:NSWindowCloseButton] setHidden:false]
-  [[settingsWindow standardWindowButton:NSWindowMiniaturizeButton] setHidden:true]
-  [[settingsWindow standardWindowButton:NSWindowZoomButton] setHidden:true]
+  const pluginRef = context.plugin.name() + context.plugin.version();
+  sendScreenView(context, 'home');
 
-  var closeButton = [settingsWindow standardWindowButton:NSWindowCloseButton]
-  [closeButton setCOSJSTargetFunction:function(sender) {
-      [settingsWindow orderOut:nil]
-      [NSApp stopModal]
-  }]
-  [closeButton setAction:"callAction:"]
+  // create options for plugin window
+  const options = {
+    identifier: context.plugin.identifier(), // to reuse the UI
+    x: 0,
+    y: 0,
+    width: PluginConfig.pluginWidth,
+    height: PluginConfig.pluginHeight,
+    background: hexToNSColor(PluginConfig.pluginWindowColor),
+    onlyShowCloseButton: true,
+    title: ' ',
+    hideTitleBar: false,
+    shouldKeepAround: true,
+    frameLoadDelegate: {
+      'webView:didFinishLoadForFrame:': function (webView, webFrame) {
+        let setLocationHash = 'window.location.hash = "small=' + nudgeValues.small + '&big=' + nudgeValues.big + '&custom=' + nudgeValues.custom + '"';
+        webUI.eval(setLocationHash);
+      }
+    },
+    uiDelegate: {
+      // https://developer.apple.com/reference/webkit/webuidelegate?language=objc
+    }
+  };
 
-  // image helper functions
-  function imageSuffix(){
-     return NSScreen.isOnRetinaScreen() ? "@2x" : ""
+  // add new handlers
+  options.handlers = {
+    saveNudgedValues: function (inputData) {
+      saveNudgedValues(inputData);
+    },
+    webLinkClicked: function (url) {
+      openUrlInBrowser(url, pluginRef);
+      sendEvent(context, 'URL', url, 'Link Clicked');
+    },
+    applyButtonWasClicked: function (data) {
+      sendEvent(context, 'UI', 'Apply', 'Apply Button Clicked');
+      saveNudgedValues(data);
+    },
+    resetButtonWasClicked: function (data) {
+      sendEvent(context, 'UI', 'Reset', 'Reset Button Clicked');
+      resetNudgeValues(data);
+    },
+    trackEvent: function (category, action, label, value) {
+      sendEvent(context, category, action, label, value);
+    },
+    trackScreenView: function (screenName) {
+      sendScreenView(context, screenName);
+    },
+    nativeLog: function (logMessage) {
+      log('[ Nudged ] - ' + logMessage);
+    }
+  };
+  // using index.html from Resources
+  const webUI = new index(context, 'index.html', options);
+
+  // saveNudgedValues
+  function saveNudgedValues(data) {
+    let sketchApp = context.api().Application();
+    sketchApp.setSettingForKey('nudgeDistanceSmall', data.small);
+    sketchApp.setSettingForKey('nudgeDistanceBig', data.big);
+    setUserPreferences({ CustomNudgedValue: data.custom });
+    context.document.showMessage('🄽 Saved Small = ' + data.small + ' Big = ' + data.big + ' Custom = ' + data.custom);
+    webUI.panel.close();
+    index.clear();
   }
-  // returns a nice path for an image in resouces folder
-  function resourceFolderImagePath(fileName,ext){
-    var imgPath = context.api().resourceNamed(fileName + imageSuffix() + ext)
-    var file = [imgPath path]
-    return file
+
+  function resetNudgeValues(data) {
+    // Future placeholder not used yet.
   }
+};
 
-  // uiView
-  var uiView = [[NSView alloc] initWithFrame:NSMakeRect(0, 0, settings.windowWidth, settings.windowHeight)]
-  uiView.setWantsLayer(true)
-  [[settingsWindow contentView] addSubview:uiView]
+// -------------------- //
 
-  var logoImage = resourceFolderImagePath("NudgedLogo",".png")
-  var logo =  NSImage.alloc().initByReferencingFile(logoImage)
-  var imageView = [[NSImageView alloc] initWithFrame:NSMakeRect(77, 195, 97, 30)]
-  [imageView setImage: logo]
-  [uiView addSubview:imageView]
+var visitNudgedWebsite = function (context) {
+  const pluginRef = context.plugin.name() + context.plugin.version();
+  var url = 'https://kevinwoodhouse.github.io/sketch-nudged/';
+  sendEvent(context, 'Sketch Menu', url, 'Menu Clicked');
+  openUrlInBrowser(url, pluginRef);
+};
 
+var visitNudgedTwitter = function (context) {
+  const pluginRef = context.plugin.name() + context.plugin.version();
+  var url = 'https://twitter.com/SketchNudged/';
+  sendEvent(context, 'Sketch Menu', url, 'Menu Clicked');
+  openUrlInBrowser(url, pluginRef);
+};
 
-  // VERSION NUMBER
-  var versionNumber = [[NSText alloc] initWithFrame:NSMakeRect(180, 220, 50, 20)]
-  [versionNumber setFieldEditor:false]
-  [versionNumber alignRight:true]
-  [versionNumber setEditable:false]
-  [versionNumber setRichText:true]
-  [versionNumber setFieldEditor:false]
-  [versionNumber setFont:[NSFont systemFontOfSize:10]]
-  [versionNumber setTextColor:uiColours.light.title]
-  [versionNumber setDrawsBackground:false]
-  [versionNumber setString:plugin.version]
-  [uiView addSubview:versionNumber]
+// RESET NUDGE - KEY / MENU
+var resetNudgeValues = function (context) {
+  // defaults
+  let defaultNudgeValues = {
+    small: 1,
+    big: 10,
+    custom: 20
+  };
+  let sketchApp = context.api().Application();
+  sketchApp.setSettingForKey('nudgeDistanceSmall', defaultNudgeValues.small);
+  sketchApp.setSettingForKey('nudgeDistanceBig', defaultNudgeValues.big);
+  setUserPreferences({ CustomNudgedValue: defaultNudgeValues.custom });
+  context.document.showMessage('🄽 Default: Small = ' + defaultNudgeValues.small + '  Big = ' + defaultNudgeValues.big + '  Custom = ' + defaultNudgeValues.custom);
+};
 
+// CUSTOM NUDGE
+var customNudgeUp = function (context) {
+  performCustomNudge(context, 'Up');
+};
 
-  // UI
-  // SMALL
-  var smallTitle = [[NSTextField alloc] initWithFrame:NSMakeRect(44, 155, 233, 15)]
-  [smallTitle setEditable:false]
-  [smallTitle setBordered:false]
-  [smallTitle setFont:[NSFont boldSystemFontOfSize:fonts.titleFontSize]]
-  [smallTitle setTextColor:uiColours.light.title]
-  [smallTitle setDrawsBackground:false]
-  [smallTitle setStringValue:"Small Nudge"]
-  [smallTitle sizeToFit]
-  [uiView addSubview:smallTitle]
+var customNudgeDown = function (context) {
+  performCustomNudge(context, 'Down');
+};
 
-  var smallDescription = [[NSTextField alloc] initWithFrame:NSMakeRect(75, 140, 243, 15)]
-  [smallDescription setEditable:false]
-  [smallDescription setBordered:false]
-  [smallDescription setFont:[NSFont systemFontOfSize:fonts.descriptionFontSize]]
-  [smallDescription setTextColor:uiColours.light.description]
-  [smallDescription setDrawsBackground:false]
-  [smallDescription setStringValue:"Arrow keys"]
-  [smallDescription sizeToFit]
-  [uiView addSubview:smallDescription]
+var customNudgeLeft = function (context) {
+  performCustomNudge(context, 'Left');
+};
 
-  var smallNudgeInputField = [[NSTextField alloc] initWithFrame:NSMakeRect(150, 142, inputSettings.width, inputSettings.height)]
-  [[smallNudgeInputField cell] setPlaceholderString:"0"]
-  [[smallNudgeInputField cell] setFocusRingType:NSFocusRingTypeNone]
-  [smallNudgeInputField setStringValue:savedSmallValue]
-  [smallNudgeInputField setBezeled:inputSettings.hasBezel]
-  [smallNudgeInputField setBordered:inputSettings.hasBorder]
-  [[smallNudgeInputField cell] setUsesSingleLineMode:inputSettings.isSingleLine]
-  [[smallNudgeInputField cell] setWraps:inputSettings.isLineWrapping]
-  [[smallNudgeInputField cell] setScrollable:inputSettings.isScrollable]
-  [smallNudgeInputField setFont:[NSFont systemFontOfSize:inputSettings.fontSize]]
-  [smallNudgeInputField setWantsLayer:true]
-  [smallNudgeInputField setCornerRadius:inputSettings.radius]
-  [smallNudgeInputField setAlignment:inputSettings.fontAlign]
-  [smallNudgeInputField setBackgroundColor:uiColours.light.fieldBG]
-  [uiView addSubview:smallNudgeInputField]
+var customNudgeRight = function (context) {
+  performCustomNudge(context, 'Right');
+};
 
-
-
-  // BIG
-  var bigTitle = [[NSTextField alloc] initWithFrame:NSMakeRect(58, 110, 243, 15)]
-  [bigTitle setEditable:false]
-  [bigTitle setBordered:false]
-  [bigTitle setFont:[NSFont boldSystemFontOfSize:fonts.titleFontSize]]
-  [bigTitle setTextColor:uiColours.light.title]
-  [bigTitle setDrawsBackground:false]
-  [bigTitle setStringValue:"Big Nudge"]
-  [bigTitle sizeToFit]
-  [uiView addSubview:bigTitle]
-
-  var bigDescription = [[NSTextField alloc] initWithFrame:NSMakeRect(38, 95, 243, 15)]
-  [bigDescription setEditable:false]
-  [bigDescription setBordered:false]
-  [bigDescription setFont:[NSFont systemFontOfSize:fonts.descriptionFontSize]]
-  [bigDescription setTextColor:uiColours.light.description]
-  [bigDescription setDrawsBackground:false]
-  [bigDescription setStringValue:"Shift + Arrow keys"]
-  [bigDescription sizeToFit]
-  [uiView addSubview:bigDescription]
-
-  var bigNudgeInputField = [[NSTextField alloc] initWithFrame:NSMakeRect(150, 98, inputSettings.width, inputSettings.height)]
-  [[bigNudgeInputField cell] setPlaceholderString:"0"]
-  [[bigNudgeInputField cell] setFocusRingType:NSFocusRingTypeNone]
-  [bigNudgeInputField setStringValue:savedBigValue]
-  [bigNudgeInputField setBezeled:inputSettings.hasBezel]
-  [bigNudgeInputField setBordered:inputSettings.hasBorder]
-  [[bigNudgeInputField cell] setUsesSingleLineMode:inputSettings.isSingleLine]
-  [[bigNudgeInputField cell] setWraps:inputSettings.isLineWrapping]
-  [[bigNudgeInputField cell] setScrollable:inputSettings.isScrollable]
-  [bigNudgeInputField setFont:[NSFont systemFontOfSize:inputSettings.fontSize]]
-  [bigNudgeInputField setWantsLayer:true]
-  [bigNudgeInputField setCornerRadius:inputSettings.radius]
-  [bigNudgeInputField setAlignment:inputSettings.fontAlign]
-  [bigNudgeInputField setBackgroundColor:uiColours.light.fieldBG]
-  [uiView addSubview:bigNudgeInputField]
-
-
-  // APPLY BUTTON
-  var applyButton = [[NSButton alloc] initWithFrame:NSMakeRect(12, 35, 223, 45)]
-  [applyButton setTitle:"Apply"]
-  [applyButton setBezelStyle:NSRoundedBezelStyle]
-  [applyButton setKeyEquivalent:"\r"]
-  [applyButton setFont:[NSFont systemFontOfSize:fonts.button]]
-  [applyButton setCOSJSTargetFunction:function(sender) {
-      var small = smallNudgeInputField.stringValue()
-      var big = bigNudgeInputField.stringValue()
-      sketchApp.setSettingForKey("nudgeDistanceSmall",small)
-      sketchApp.setSettingForKey("nudgeDistanceBig",big)
-      [settingsWindow orderOut:nil]
-      [NSApp stopModal]
-  }]
-  [applyButton setAction:"callAction:"]
-  [uiView addSubview:applyButton]
-  [settingsWindow setDefaultButtonCell:[applyButton cell]]
-
-
-  // CREDITS
-  var creditsView = [[NSView alloc] initWithFrame:NSMakeRect(0, 0, 250, 30)]
-  creditsView.setWantsLayer(true)
-  [[settingsWindow contentView] addSubview:creditsView]
-
-  var createdBy = [[NSTextField alloc] initWithFrame:NSMakeRect(18, 17, 250, 15)]
-  [createdBy setEditable:false]
-  [createdBy setBordered:false]
-  [createdBy setFont:[NSFont systemFontOfSize:fonts.creditsFontSize]]
-  [createdBy setTextColor:uiColours.light.creditsText]
-  [createdBy setDrawsBackground:false]
-  [createdBy setStringValue:"Created by Kevin Woodhouse"]
-  [createdBy sizeToFit]
-  [creditsView addSubview:createdBy]
-
-  // SOCIAL LINKS
-  // HOME
-  var home = resourceFolderImagePath("icon_home",".png")
-  var homeImage =  NSImage.alloc().initByReferencingFile(home)
-  var homeButton = [[NSButton alloc] initWithFrame:NSMakeRect(155, 16, 17, 14)]
-  [homeButton setTitle:nil]
-  [[homeButton cell] setBordered:false]
-  [homeButton setImage:homeImage]
-  [homeButton setCOSJSTargetFunction:function(sender) {
-      var url = [NSURL URLWithString:@"http://www.kevinwoodhouse.com/?ref=Nudged_"+plugin.version]
-      if( ![[NSWorkspace sharedWorkspace] openURL:url] ){
-        sketchLog(@"Failed to open url:" + [url description])
+function performCustomNudge(context, nudgeDirection) {
+  let document = context.document;
+  let selectedLayers = context.selection;
+  let selectedLayersCount = selectedLayers.count();
+  if (selectedLayersCount == 0) {
+    context.document.showMessage('🄽 No Layer(s) Selected');
+  } else {
+    let { CustomNudgedValue } = getUserPreferences();
+    let nudgeValue = CustomNudgedValue;
+    let layer;
+    for (var i = 0; i < selectedLayersCount; i++) {
+      layer = selectedLayers[i];
+      switch (nudgeDirection) {
+        case 'Up':
+          layer.frame().setY(parseFloat(layer.frame().y()) - parseFloat(nudgeValue));
+          break;
+        case 'Down':
+          layer.frame().setY(parseFloat(layer.frame().y()) + parseFloat(nudgeValue));
+          break;
+        case 'Left':
+          layer.frame().setX(parseFloat(layer.frame().x()) - parseFloat(nudgeValue));
+          break;
+        case 'Right':
+          layer.frame().setX(parseFloat(layer.frame().x()) + parseFloat(nudgeValue));
+          break;
+        default:
       }
-  }]
-  [homeButton setAction:"callAction:"]
-  [creditsView addSubview:homeButton]
-
-  // TWITTER
-  var twitter = resourceFolderImagePath("icon_twitter",".png")
-  var twitterImage =  NSImage.alloc().initByReferencingFile(twitter)
-  var twitterButton = [[NSButton alloc] initWithFrame:NSMakeRect(176, 16, 17, 14)]
-  [twitterButton setTitle:nil]
-  [[twitterButton cell] setBordered:false]
-  [twitterButton setImage:twitterImage]
-  [twitterButton setCOSJSTargetFunction:function(sender) {
-      var url = [NSURL URLWithString:@"http://twitter.com/Kevin_Woodhouse/?ref=Nudged_"+plugin.version]
-      if( ![[NSWorkspace sharedWorkspace] openURL:url] ){
-        sketchLog(@"Failed to open url:" + [url description])
-      }
-  }]
-  [twitterButton setAction:"callAction:"]
-  [creditsView addSubview:twitterButton]
-
-  // GITHUB
-  var github = resourceFolderImagePath("icon_github",".png")
-  var githubImage =  NSImage.alloc().initByReferencingFile(github)
-  var githubButton = [[NSButton alloc] initWithFrame:NSMakeRect(196, 16, 17, 14)]
-  [githubButton setTitle:nil]
-  [[githubButton cell] setBordered:false]
-  [githubButton setImage:githubImage]
-  [githubButton setCOSJSTargetFunction:function(sender) {
-      var url = [NSURL URLWithString:@"http://www.github.com/KevinWoodhouse/?ref=Nudged_"+plugin.version]
-      if( ![[NSWorkspace sharedWorkspace] openURL:url] ){
-        sketchLog(@"Failed to open url:" + [url description])
-      }
-  }]
-  [githubButton setAction:"callAction:"]
-  [creditsView addSubview:githubButton]
-
-  // DRIBBBLE
-  var dribbble = resourceFolderImagePath("icon_dribbble",".png")
-  var dribbbleImage =  NSImage.alloc().initByReferencingFile(dribbble)
-  var dribbbleButton = [[NSButton alloc] initWithFrame:NSMakeRect(215, 16, 17, 14)]
-  [dribbbleButton setTitle:nil]
-  [[dribbbleButton cell] setBordered:false]
-  [dribbbleButton setImage:dribbbleImage]
-  [dribbbleButton setCOSJSTargetFunction:function(sender) {
-      var url = [NSURL URLWithString:@"http://www.dribbble.com/KevinWoodhouse/?ref=Nudged_"+plugin.version]
-      if( ![[NSWorkspace sharedWorkspace] openURL:url] ){
-        sketchLog(@"Failed to open url:" + [url description])
-      }
-  }]
-  [dribbbleButton setAction:"callAction:"]
-  [creditsView addSubview:dribbbleButton]
-
-  // RUNMODAL
-  [NSApp runModalForWindow:settingsWindow]
+    }
+    document.reloadInspector();
+  }
 }

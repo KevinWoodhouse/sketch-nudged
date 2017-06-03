@@ -1,28 +1,105 @@
 {
-   "name":"Nudged",
-   "description":"A Sketch plugin to easily edit your nudge distance settings.",
-   "version":"1.0.1",
-   "author":"Kevin Woodhouse",
-   "authorEmail":"hello@kevinwoodhouse.com",
-   "homepage":"https://github.com/kevinwoodhouse/sketch-nudged",
-   "identifier":"com.kevinwoodhouse.sketch-nudged",
-   "compatibleVersion":4.1,
-   "bundleVersion":1,
-   "commands":[
+  "name": "Nudged",
+  "description": "A Sketch plugin to easily edit your nudge distance settings.",
+  "version": "2.0",
+  "author": "Kevin Woodhouse",
+  "authorEmail": "hello@kevinwoodhouse.com",
+  "homepage": "https://github.com/kevinwoodhouse/sketch-nudged",
+  "appcast": "https://raw.githubusercontent.com/kevinwoodhouse/sketch-nudged/master/appcast.xml",
+  "identifier": "com.kevinwoodhouse.sketch-nudged",
+  "compatibleVersion": 4.1,
+  "bundleVersion": 1,
+  "commands": [
+    {
+      "name": "Nudged Settings",
+      "identifier": "Settings",
+      "shortcut": "alt ctrl n",
+      "script": "nudged.cocoascript",
+      "handler": "onRun",
+      "icon": "nudged-icon-sr.png",
+      "description": "Open Nudged - Easily edit your nudge distance settings."
+    },
+    {
+      "name": "Reset Nudge Values to Defaults",
+      "identifier": "NudgeReset",
+      "shortcut": "alt ctrl 0",
+      "script": "nudged.cocoascript",
+      "handler": "resetNudgeValues",
+      "icon": "nudged-icon-sr.png",
+      "description": "Nudged - Reset to Default Sketch Values."
+    },
+    {
+      "name": "Nudge Up (Custom Value)",
+      "identifier": "NudgeUp",
+      "shortcut": "alt ctrl ↑",
+      "script": "nudged.cocoascript",
+      "handler": "customNudgeUp",
+      "icon": "nudged-icon-sr.png",
+      "description": "Nudged - Nudge Up using Custom Value."
+    },
+    {
+      "name": "Nudge Down (Custom Value)",
+      "identifier": "NudgeDown",
+      "shortcut": "alt ctrl ↓",
+      "script": "nudged.cocoascript",
+      "handler": "customNudgeDown",
+      "icon": "nudged-icon-sr.png",
+      "description": "Nudged - Nudge Down using Custom Value."
+    },
+    {
+      "name": "Nudge Left (Custom Value)",
+      "identifier": "NudgeLeft",
+      "shortcut": "alt ctrl ←",
+      "script": "nudged.cocoascript",
+      "handler": "customNudgeLeft",
+      "icon": "nudged-icon-sr.png",
+      "description": "Nudged - Nudge Left using Custom Value."
+    },
+    {
+      "name": "Nudge Right (Custom Value)",
+      "identifier": "NudgeRight",
+      "shortcut": "alt ctrl →",
+      "script": "nudged.cocoascript",
+      "handler": "customNudgeRight",
+      "icon": "nudged-icon-sr.png",
+      "description": "Nudged - Nudge Right using Custom Value."
+    },
+    {
+      "name": "Nudged Website",
+      "identifier": "Nudged Website",
+      "script": "nudged.cocoascript",
+      "handler": "visitNudgedWebsite",
+      "icon": "nudged-icon-sr.png",
+      "description": "Check out Nudged website"
+    },
+    {
+      "name": "Follow @SketchNudged",
+      "identifier": "Nudged Twitter",
+      "script": "nudged.cocoascript",
+      "handler": "visitNudgedTwitter",
+      "icon": "nudged-icon-sr.png",
+      "description": "Follow @SketchNudged on Twitter"
+    }
+  ],
+  "menu": {
+    "title": "Nudged",
+    "items": [
+      "Settings",
+      "NudgeReset",
+      "-",
       {
-         "script":"nudged.cocoascript",
-         "handler":"settingsWindow",
-         "shortcut":"alt cmd n",
-         "name":"Nudged",
-         "identifier":"Nudged",
-         "icon":"nudged-icon-sr.png",
-         "description":"Open Nudged - Edit nudge distance settings."
-      }
-   ],
-   "menu":{
-      "items":[
-         "Nudged"
-      ],
-      "isRoot":true
-   }
+        "title": "Custom Nudge",
+        "items": [
+          "NudgeUp",
+          "NudgeDown",
+          "NudgeLeft",
+          "NudgeRight"
+        ]
+      },
+      "-",
+      "Nudged Website",
+      "Nudged Twitter"
+    ]
+  },
+  "disableCocoaScriptPreprocessor": true
 }
