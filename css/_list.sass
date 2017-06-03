@@ -35,3 +35,34 @@ ul.list li:first-child
   width: $v-num-min-width
   min-width: $v-num-min-width
   margin-left: $v-num-margin
+
+ul.list ul
+  margin: 0px
+
+ul.list ul li
+  margin: 0px
+
+ul.list ul li::before
+  content: '•'
+  color: #0e7afe
+  padding-right: 10px
+
+ul.list ul li.changed::before
+  content: '~'
+  color: #0e7afe
+
+ul.list ul li.added::before
+  content: '+'
+  color: #0e7afe
+
+ul.list ul li.fixed::before
+  content: '*'
+  color: #0e7afe
+
+ul.list ul li.removed::before
+  content: '-'
+  color: #0e7afe
+
+
+ul.list ul li em
+  font-weight: 400

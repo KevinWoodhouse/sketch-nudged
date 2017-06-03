@@ -6,13 +6,24 @@
       "zip-url":"https://github.com/KevinWoodhouse/sketch-nudged/archive/master.zip"
     },
     "versions": [{
+        "version": "v2.0.0",
+        "description": "<ul>
+            <li class='changed'>Changed plugin Shortcut to <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>n</kbd></li>
+            <li class='added'>Added Custom Nudge input</li>
+            <li class='added'>Added smarter UI with a number of usability enhancements</li>
+            <li class='added'>Added 'Reset' button to settings window</li>
+            <li class='added'>Added Quick Reset Shortcut <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>0</kbd></li>
+            <li class='added'>Added integration with Sketch App's Update System</li>
+          </ul>",
+        "url": "https://github.com/KevinWoodhouse/sketch-nudged/archive/v2.0.zip"
+    },{
         "version": "v1.0.1",
-        "description": "Added integration with Sketch Runner",
-        "url": "https://github.com/KevinWoodhouse/sketch-nudged"
+        "description": "<ul><li class='added'>Added integration with Sketch Runner</li><ul>",
+        "url": "https://github.com/KevinWoodhouse/sketch-nudged/archive/v1.0.1.zip"
     },{
       "version": "v1.0.0",
-      "description": "First Release",
-      "url": "https://github.com/KevinWoodhouse/sketch-nudged"
+      "description": "<ul><li>First Release</li></ul>",
+      "url": "https://github.com/KevinWoodhouse/sketch-nudged/archive/v1.0.zip"
     }],
     "featured-on": [{
         "site-name": "Sketch App",
