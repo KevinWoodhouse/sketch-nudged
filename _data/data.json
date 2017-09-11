@@ -6,6 +6,12 @@
       "zip-url":"https://github.com/KevinWoodhouse/sketch-nudged/archive/master.zip"
     },
     "versions": [{
+        "version": "v2.0.1",
+        "description": "<ul>
+            <li class='fixed'>Fixed UI bug #9 where arrows went missing on inputs</li>
+          </ul>",
+        "url": "https://github.com/KevinWoodhouse/sketch-nudged/archive/v2.0.1.zip"
+    },{
         "version": "v2.0.0",
         "description": "<ul>
             <li class='changed'>Changed plugin Shortcut to <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>n</kbd></li>
