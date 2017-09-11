@@ -6,6 +6,18 @@
     <description>A Sketch plugin to easily edit your nudge distance settings.</description>
     <language>en</language>
     <item>
+      <title>2.0.1</title>
+      <description>
+        <![CDATA[
+          <ul>
+            <li>Fixed UI bug #9 where arrow went missing on inputs</li>
+          </ul>
+        ]]>
+      </description>
+      <pubDate>Mon, Sep 11 2017 16:54:08 +0100</pubDate>
+      <enclosure url="https://github.com/KevinWoodhouse/sketch-nudged/archive/v2.0.1,zip" type="application/octet-stream" sparkle:version="2.0.1"/>
+    </item>
+    <item>
       <title>2.0</title>
       <description>
         <![CDATA[

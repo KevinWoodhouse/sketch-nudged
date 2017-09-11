@@ -1,32 +1,35 @@
-/*
-  Project: Nudged - A Sketch Plugin to easily edit your nudge distance settings.
-  Author: Kevin Woodhouse
-  Twitter: @Kevin_Woodhouse
-  Web: www.kevinwoodhouse.com
-  -----------------------------
-  Twitter: @SketchNudged
-  Support: https://kevinwoodhouse.github.io/sketch-nudged/
-  Version: 2.0 - Mocha Frappuccino
-*/
+/* globals NSUUID MOClassDescription NSObject NSSelectorFromString NSClassFromString */
 
 var index$1 = function (selectorHandlerDict, superclass) {
   var uniqueClassName = 'MochaJSDelegate_DynamicClass_' + NSUUID.UUID().UUIDString();
+
   var delegateClassDesc = MOClassDescription.allocateDescriptionForClassWithName_superclass_(uniqueClassName, superclass || NSObject);
+
   delegateClassDesc.registerClass();
+
   // Storage Handlers
   var handlers = {};
+
   // Define interface
   this.setHandlerForSelector = function (selectorString, func) {
     var handlerHasBeenSet = selectorString in handlers;
     var selector = NSSelectorFromString(selectorString);
+
     handlers[selectorString] = func;
+
+    /*
+      For some reason, Mocha acts weird about arguments: https://github.com/logancollins/Mocha/issues/28
+      We have to basically create a dynamic handler with a likewise dynamic number of predefined arguments.
+    */
     if (!handlerHasBeenSet) {
       var args = [];
       var regex = /:/g;
       while (regex.exec(selectorString)) {
         args.push('arg' + args.length);
       }
+
       var dynamicFunction = eval('(function (' + args.join(', ') + ') { return handlers[selectorString].apply(this, arguments); })');
+
       delegateClassDesc.addInstanceMethodWithSelector_function_(selector, dynamicFunction);
     }
   };
@@ -74,7 +77,12 @@ var parseQuery = function (query) {
   return query;
 };
 
+/* globals NSUUID NSThread NSPanel NSMakeRect NSTexturedBackgroundWindowMask NSTitledWindowMask NSClosableWindowMask NSColor NSWindowMiniaturizeButton NSWindowZoomButton NSFloatingWindowLevel WebView COScript */
+
+
+
 var coScript = COScript.currentCOScript();
+
 var LOCATION_CHANGED = 'webView:didChangeLocationWithinPageForFrame:';
 
 function WebUI(context, htmlName, options) {
@@ -158,6 +166,7 @@ WebUI.clean = function () {
 };
 
 var index = WebUI;
+
 var kUUIDKey = 'google.analytics.uuid';
 var uuid = NSUserDefaults.standardUserDefaults().objectForKey(kUUIDKey);
 if (!uuid) {
@@ -195,6 +204,7 @@ var index$3 = function (context, trackingId, hitType, props) {
   }
 };
 
+// import prefsManager from 'sketch-module-user-preferences'
 const SUITE_PREFIX = 'com.kevinwoodhouse.';
 const pluginName = 'SketchNudged';
 const defaultPrefs = {
@@ -207,25 +217,34 @@ function isPresent(data) {
 }
 
 function getUserPreferences() {
-  var prefs = {}
-  var store = NSUserDefaults.alloc().initWithSuiteName(SUITE_PREFIX + pluginName)
-    Object.keys(defaultPrefs).forEach(function (k) {
+  var prefs = {};
+  var store = NSUserDefaults.alloc().initWithSuiteName(SUITE_PREFIX + pluginName);
+  Object.keys(defaultPrefs).forEach(function (k) {
+    //log('[NUDGED] key: ' + k)
     if (typeof defaultPrefs[k] === 'boolean') {
-      prefs[k] = isPresent(store.objectForKey(k)) ? Boolean(store.boolForKey(k)) : defaultPrefs[k]
+      prefs[k] = isPresent(store.objectForKey(k)) ? Boolean(store.boolForKey(k)) : defaultPrefs[k];
     } else if (typeof defaultPrefs[k] === 'number') {
-      prefs[k] = isPresent(store.objectForKey(k)) ? store.doubleForKey(k) : defaultPrefs[k]
+      prefs[k] = isPresent(store.objectForKey(k)) ? store.doubleForKey(k) : defaultPrefs[k];
     } else if (typeof defaultPrefs[k] === 'string') {
-      prefs[k] = isPresent(store.objectForKey(k)) ? store.stringForKey(k) : defaultPrefs[k]
+      prefs[k] = isPresent(store.objectForKey(k)) ? store.stringForKey(k) : defaultPrefs[k];
     } else if (Array.isArray(defaultPrefs[k])) {
-      prefs[k] = isPresent(store.objectForKey(k)) ? store.arrayForKey(k) : defaultPrefs[k]
+      prefs[k] = isPresent(store.objectForKey(k)) ? store.arrayForKey(k) : defaultPrefs[k];
     } else {
-      prefs[k] = isPresent(store.objectForKey(k)) ? store.dictionaryForKey(k) : defaultPrefs[k]
+      prefs[k] = isPresent(store.objectForKey(k)) ? store.dictionaryForKey(k) : defaultPrefs[k];
     }
-  })
-  return prefs
+  });
+  //log('[NUDGED] defprefs: ' + Object.keys(defaultPrefs))
+  //log('[NUDGED] defVals: ' + Object.keys(defaultPrefs).map(k => defaultPrefs[k]))
+  //log('[NUDGED] prefs: ' + Object.keys(prefs))
+  //log('[NUDGED] Vals: ' + Object.keys(prefs).map(k => prefs[k]))
+  return prefs;
 }
 
+
+
 function setUserPreferences(prefs) {
+  log('[NUDGED] saving prefs: ' + Object.keys(prefs));
+  log('[NUDGED] saving prefs: ' + Object.keys(prefs).map(k => prefs[k]));
   var store = NSUserDefaults.alloc().initWithSuiteName(SUITE_PREFIX + pluginName);
   Object.keys(prefs).forEach(function (k) {
     if (typeof prefs[k] === 'boolean') {
@@ -239,7 +258,12 @@ function setUserPreferences(prefs) {
   store.synchronize();
 }
 
+
+
+
+
 //.......................................//
+
 
 // general functions
 function userDefaultsFromKey(key) {
@@ -251,7 +275,9 @@ const { SendAnalytics } = getUserPreferences();
 log('[ Nudged ] - SendAnalytics? ' + SendAnalytics);
 
 function sendEvent(context, category, action, label, value) {
+  log('[ Nudged ] - SendAnalytics? ' + SendAnalytics);
   if (!SendAnalytics) {
+    log('[ Nudged ] - SendAnalytics = false... not sending!');
     return;
   }
   const payload = {};
@@ -270,6 +296,8 @@ function sendEvent(context, category, action, label, value) {
   return index$3(context, gaID, 'event', payload);
 }
 
+
+
 function sendScreenView(context, screenName) {
   if (!SendAnalytics) {
     return;
@@ -282,6 +310,7 @@ function sendScreenView(context, screenName) {
 }
 
 function openUrlInBrowser(url, ref = null) {
+  log('[ Nudged ] -- openUrlInBrowser');
   if (ref) {
     var refURL = url + '?ref=' + ref;
     NSWorkspace.sharedWorkspace().openURL(NSURL.URLWithString(refURL));
@@ -289,6 +318,9 @@ function openUrlInBrowser(url, ref = null) {
     NSWorkspace.sharedWorkspace().openURL(NSURL.URLWithString(url));
   }
 }
+
+// color funcs
+
 
 function hexToNSColor(hex) {
   var r = parseInt(hex.substring(0, 2), 16) / 255,
@@ -298,7 +330,18 @@ function hexToNSColor(hex) {
   return NSColor.colorWithRed_green_blue_alpha(r, g, b, a);
 }
 
-// ------------------------ //
+// hash tools
+
+/*
+  Project: Nudged - A Sketch Plugin to easily edit your nudge distance settings.
+  Author: Kevin Woodhouse
+  Twitter: @Kevin_Woodhouse
+  Web: www.kevinwoodhouse.com
+  -----------------------------
+  Twitter: @SketchNudged
+  Support: https://kevinwoodhouse.github.io/sketch-nudged/
+  Version: 2.0 - Mocha Frappuccino
+*/
 
 // OnRun
 var onRun = function (context) {
