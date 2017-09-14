@@ -7,6 +7,18 @@
   background-position: top
   background-attachment: fixed
   // animation: animatedBackground $bg-ani-time linear infinite
+  @media #{$large-up}
+    height: 100vh
+  header
+    @media #{$large-up}
+      position: relative
+      top: 50%
+      transform: translateY(-50%)
+      height: auto
+      overflow: auto
+      max-width: 700px
+    @media #{$xlarge-up}
+      max-width: 750px
   h1
     @media #{$large-up}
       float: left
