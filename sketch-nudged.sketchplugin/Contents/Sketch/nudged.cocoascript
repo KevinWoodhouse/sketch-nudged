@@ -1,3 +1,15 @@
+/*
+  Project: Nudged - A Sketch Plugin to easily edit your nudge distance settings.
+  Author: Kevin Woodhouse
+  Twitter: @Kevin_Woodhouse
+  Web: www.kevinwoodhouse.com
+  -----------------------------
+  Twitter: @SketchNudged
+  Support: https://kevinwoodhouse.github.io/sketch-nudged/
+  Version: 2.0.1 - Mocha Frappuccino
+*/
+
+
 /* globals NSUUID MOClassDescription NSObject NSSelectorFromString NSClassFromString */
 
 var index$1 = function (selectorHandlerDict, superclass) {
@@ -79,10 +91,7 @@ var parseQuery = function (query) {
 
 /* globals NSUUID NSThread NSPanel NSMakeRect NSTexturedBackgroundWindowMask NSTitledWindowMask NSClosableWindowMask NSColor NSWindowMiniaturizeButton NSWindowZoomButton NSFloatingWindowLevel WebView COScript */
 
-
-
 var coScript = COScript.currentCOScript();
-
 var LOCATION_CHANGED = 'webView:didChangeLocationWithinPageForFrame:';
 
 function WebUI(context, htmlName, options) {
@@ -258,10 +267,6 @@ function setUserPreferences(prefs) {
   store.synchronize();
 }
 
-
-
-
-
 //.......................................//
 
 
@@ -332,16 +337,7 @@ function hexToNSColor(hex) {
 
 // hash tools
 
-/*
-  Project: Nudged - A Sketch Plugin to easily edit your nudge distance settings.
-  Author: Kevin Woodhouse
-  Twitter: @Kevin_Woodhouse
-  Web: www.kevinwoodhouse.com
-  -----------------------------
-  Twitter: @SketchNudged
-  Support: https://kevinwoodhouse.github.io/sketch-nudged/
-  Version: 2.0 - Mocha Frappuccino
-*/
+//.......................................//
 
 // OnRun
 var onRun = function (context) {
@@ -432,7 +428,7 @@ var onRun = function (context) {
   }
 };
 
-// -------------------- //
+//.......................................//
 
 var visitNudgedWebsite = function (context) {
   const pluginRef = context.plugin.name() + context.plugin.version();
