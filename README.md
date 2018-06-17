@@ -1,10 +1,18 @@
-<img src="https://img.shields.io/badge/dynamic/xml.svg?label=Nudged&url=https%3A%2F%2Fraw.githubusercontent.com%2FKevinWoodhouse%2Fsketch-nudged%2Fmaster%2Fappcast.xml&query=%2Frss%2Fchannel%2Fitem%5B1%5D%2Ftitle&colorB=%23417FFE">
-<img src="https://img.shields.io/badge/Made%20for-Sketch%2049%2B-orange.svg">
-<img src="https://img.shields.io/badge/MacOS-10.12%2B-lightgrey.svg">
+<a href="#" style="display:inline-block">
+  <img style="display:inline-block" src="https://img.shields.io/badge/dynamic/xml.svg?label=Nudged&url=https%3A%2F%2Fraw.githubusercontent.com%2FKevinWoodhouse%2Fsketch-nudged%2Fmaster%2Fappcast.xml&query=%2Frss%2Fchannel%2Fitem%5B1%5D%2Ftitle&colorB=%23417FFE">
+</a>
 
+<a href="#" style="display:inline-block">
+  <img style="display:inline-block" src="https://img.shields.io/badge/Made%20for-Sketch%2049%2B-orange.svg">
+</a>
 
-<a href="https://kevinwoodhouse.github.io/sketch-nudged/?ref=github-project" title="Checkout the Nudged website">
-  <img width="320" height="41" src="https://raw.githubusercontent.com/kevinwoodhouse/sketch-Nudged/master/sketch-nudged-web-badge.png"  style="margin-bottom:10px; margin-top:10px; display:block;">
+<a href="#" style="display:inline-block">
+  <img src="https://img.shields.io/badge/MacOS-10.12%2B-lightgrey.svg">
+</a>
+
+<br/>
+<a href="https://kevinwoodhouse.github.io/sketch-nudged/?ref=github-project" title="Checkout the Nudged website" style="margin-bottom:10px; margin-top:10px; display:block;">
+  <img width="320" height="41" src="https://raw.githubusercontent.com/kevinwoodhouse/sketch-Nudged/master/sketch-nudged-web-badge.png"  style="margin-bottom:10px; margin-top:20px; display:block;">
 </a>
 
 <img src="https://raw.githubusercontent.com/kevinwoodhouse/sketch-Nudged/master/sketch-nudged-hero.png" width="100%">
@@ -80,15 +88,16 @@ Submission of new ideas, improvements and new feature requests are always welcom
 Found a bug? Please [submit a new issues](https://github.com/KevinWoodhouse/sketch-nudged/issues) here on GitHub.
 Need help? Feel free to DM me [@SketchNudged](https://twitter.com/sketchnudged) Twitter account, I'll do my best to reply promptly.
 
-### CreditsCredits
-<img width="40" style="margin-bottom:0px" src="https://avatars0.githubusercontent.com/u/7264145?s=80">
+### Credits
+
+<a href="#"><img width="40" style="margin-bottom:0px" src="https://avatars0.githubusercontent.com/u/7264145?s=80"></a>
 
 **&copy; Kevin Woodhouse**  
 Website: [www.kevinwoodhouse.com](http://www.kevinwoodhouse.com#Sketch-Nudged-GitHub)  
 Twitter: [@Kevin_Woodhouse](https://twitter.com/kevin_woodhouse)  
 
 
-<img width="40" style="margin-bottom:0px; margin-top:20px; border-radius:100%" src="https://pbs.twimg.com/profile_images/872360924883111938/v2qKbdfH_200x200.jpg">
+<a href="#"><img width="40" style="margin-bottom:0px; margin-top:20px; border-radius:100%" src="https://pbs.twimg.com/profile_images/872360924883111938/v2qKbdfH_200x200.jpg"></a>
 
 **Nudged**  
 Website: [Nudged Site](https://kevinwoodhouse.github.io/sketch-nudged/?ref=github-project)  
