@@ -27,13 +27,13 @@ Important - make sure you have the latest version of Sketch App installed. (**Sk
 2. Double click on **sketch-nudged.sketchplugin** to install.  
 
 ### Easy Install
-If you use <a rel="nofollow" href="https://sketchrunner.com/">Sketch Runner</a> - Just search for "Nudged" and install from there.
+If you use <a rel="nofollow" href="https://sketchrunner.com/?ref=Nudged-github">Sketch Runner</a> - Just search for "Nudged" and install from there.
 
 ### Buying a Licence Key
 Nudged is currently 'free' for everyone...
 But if you use Nudged professionally in your daily workflow it's alway great karma to give a little back. 
 
-So optionally you can support Nudged's development by buying a User Licence from my [Gumroad Store](https://gum.co/nudged). Priced at an affordable £2 per 'Single User Licence' (Less than a cup of _Mermaid_ branded coffee). 
+So optionally you can support Nudged's development by buying a User Licence from my [Gumroad Store](https://gum.co/nudged/?ref=github-project). Priced at an affordable £2 per 'Single User Licence' (Less than a cup of _Mermaid_ branded coffee). 
 
 You can also "Pay what you want" for a licence, if you would like to show some extra love to the project.
 
