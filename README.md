@@ -27,7 +27,7 @@ Important - make sure you have the latest version of Sketch App installed. (**Sk
 2. Double click on **sketch-nudged.sketchplugin** to install.  
 
 ### Easy Install
-If you use either <a rel="nofollow" href="http://sketchtoolbox.com/">SketchToolBox</a> or <a href="https://sketchpacks.com/" rel="nofollow">SketchPacks</a> for MacOS - Just search for "Nudged" and install from there.
+If you use <a rel="nofollow" href="https://sketchrunner.com/">Sketch Runner</a> - Just search for "Nudged" and install from there.
 
 ### Buying a Licence Key
 Nudged is currently 'free' for everyone...
