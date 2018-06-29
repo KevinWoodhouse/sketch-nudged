@@ -64,6 +64,7 @@ Use standard Sketch App keys to Nudge objects around:
 ### Log:
 | Version | Notes |
 | --- | --- |
+| **v2.0.2** | Added/Updated Logo.
 | **v2.0.1** | Fixed UI bug #9 where arrows went missing on inputs.
 | **v2.0** | Changed Plugin Shortcut to Ctrl + Alt + n.<br/>Added Custom Nudge input.<br/>Added smarter UI with a number of usability enhancements.<br/>Added 'Reset' button to settings window.<br/>Added Quick Reset Shortcut Ctrl + Alt + 0.<br/>Added integration with Sketch App's Update System.
 | **v1.0.1** | Added integration with [Sketch Runner](http://sketchrunner.com/?ref=sketch-nudged-github). |

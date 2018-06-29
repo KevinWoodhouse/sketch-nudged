@@ -6,6 +6,21 @@
     <description>A Sketch plugin to easily edit your nudge distance settings.</description>
     <language>en</language>
     <item>
+      <title>2.0.2</title>
+      <description>
+        <![CDATA[
+          <ul>
+            <li>Added/Updated Logo</li>
+          </ul>
+        ]]>
+      </description>
+      <pubDate>Fri, June 29 2018 11:54:08 +0100</pubDate>
+      <pubDateUK>29/6/2018</pubDateUK>
+      <supportedSketchVersion>Sketch 49+</supportedSketchVersion>
+      <supportedMacOSVersion>10.12+</supportedMacOSVersion>
+      <enclosure url="https://github.com/KevinWoodhouse/sketch-nudged/archive/v2.0.2.zip" type="application/octet-stream" sparkle:version="2.0.2"/>
+    </item>
+    <item>
       <title>2.0.1</title>
       <description>
         <![CDATA[

@@ -1,11 +1,13 @@
 {
   "name": "Nudged",
   "description": "A Sketch plugin to easily edit your nudge distance settings.",
-  "version": "2.0.1",
+  "version": "2.0.2",
+  "icon": "nudged-icon.png",
   "author": "Kevin Woodhouse",
   "authorEmail": "hello@kevinwoodhouse.com",
   "homepage": "https://github.com/kevinwoodhouse/sketch-nudged",
   "appcastURL": "https://raw.githubusercontent.com/kevinwoodhouse/sketch-nudged/master/appcast.xml",
+  "appcast": "https://raw.githubusercontent.com/kevinwoodhouse/sketch-nudged/master/appcast.xml",
   "identifier": "com.kevinwoodhouse.sketch-nudged",
   "compatibleVersion": 4.1,
   "bundleVersion": 1,
@@ -16,7 +18,7 @@
       "shortcut": "alt ctrl n",
       "script": "nudged.cocoascript",
       "handler": "onRun",
-      "icon": "nudged-icon-sr.png",
+      "icon": "nudged-icon.png",
       "description": "Open Nudged - Easily edit your nudge distance settings."
     },
     {
@@ -25,7 +27,7 @@
       "shortcut": "alt ctrl 0",
       "script": "nudged.cocoascript",
       "handler": "resetNudgeValues",
-      "icon": "nudged-icon-sr.png",
+      "icon": "nudged-icon.png",
       "description": "Nudged - Reset to Default Sketch Values."
     },
     {
@@ -34,7 +36,7 @@
       "shortcut": "alt ctrl ↑",
       "script": "nudged.cocoascript",
       "handler": "customNudgeUp",
-      "icon": "nudged-icon-sr.png",
+      "icon": "nudged-icon.png",
       "description": "Nudged - Nudge Up using Custom Value."
     },
     {
@@ -43,7 +45,7 @@
       "shortcut": "alt ctrl ↓",
       "script": "nudged.cocoascript",
       "handler": "customNudgeDown",
-      "icon": "nudged-icon-sr.png",
+      "icon": "nudged-icon.png",
       "description": "Nudged - Nudge Down using Custom Value."
     },
     {
@@ -52,7 +54,7 @@
       "shortcut": "alt ctrl ←",
       "script": "nudged.cocoascript",
       "handler": "customNudgeLeft",
-      "icon": "nudged-icon-sr.png",
+      "icon": "nudged-icon.png",
       "description": "Nudged - Nudge Left using Custom Value."
     },
     {
@@ -61,7 +63,7 @@
       "shortcut": "alt ctrl →",
       "script": "nudged.cocoascript",
       "handler": "customNudgeRight",
-      "icon": "nudged-icon-sr.png",
+      "icon": "nudged-icon.png",
       "description": "Nudged - Nudge Right using Custom Value."
     },
     {
@@ -69,7 +71,7 @@
       "identifier": "Nudged Website",
       "script": "nudged.cocoascript",
       "handler": "visitNudgedWebsite",
-      "icon": "nudged-icon-sr.png",
+      "icon": "nudged-icon.png",
       "description": "Check out Nudged website"
     },
     {
@@ -77,7 +79,7 @@
       "identifier": "Nudged Twitter",
       "script": "nudged.cocoascript",
       "handler": "visitNudgedTwitter",
-      "icon": "nudged-icon-sr.png",
+      "icon": "nudged-icon.png",
       "description": "Follow @SketchNudged on Twitter"
     }
   ],
