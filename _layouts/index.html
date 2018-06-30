@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700" rel="stylesheet">
     <!-- scripts  -->
     {% include analytics.html %}
-    <script type="text/javascript" src="{{ site.url }}/js/nudged-scripts.min.js"></script>
+    <script defer type="text/javascript" src="{{ site.url }}/js/nudged-scripts.min.js"></script>
     <script src="https://gumroad.com/js/gumroad.js"></script>
   </head>
   <body>
@@ -15,9 +15,10 @@
       {% include hero.html %}
       {% include about.html %}
       {% include install.html %}
+      {% include support.html %}
       {% include change-log.html %}
+      {% include buy.html %}
       {% include share.html %}
-      {% include testers.html %}
       {% include featured-on.html %}
       {% include project-by.html %}
     </div>

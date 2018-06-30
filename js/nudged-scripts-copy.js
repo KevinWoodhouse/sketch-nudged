@@ -1,6 +1,7 @@
 window.onload = function(){
   // GOOGLE STUFF
   var downloadBtn = document.getElementById("downloadBtn"),
+      downloadLink = document.getElementById("downloadLink"),
       licenceBtn = document.getElementById("licenceBtn"),
       githubBtn = document.getElementById("githubBtn"),
       pressKitBtn = document.getElementById("pressKitBtn"),
@@ -9,6 +10,7 @@ window.onload = function(){
       shareLinks = document.getElementsByClassName("shareLink");
 
   downloadBtn.addEventListener("click", handleDownloadClicks);
+  downloadLink.addEventListener("click", handleDownloadClicks);
   licenceBtn.addEventListener("click", handleLicenceClicks);
   githubBtn.addEventListener("click", handleGithubClicks);
   pressKitBtn.addEventListener("click", handlePressKitClicks);

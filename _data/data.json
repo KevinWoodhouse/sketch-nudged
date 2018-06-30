@@ -6,6 +6,13 @@
       "zip-url":"https://github.com/KevinWoodhouse/sketch-nudged/archive/master.zip"
     },
     "versions": [{
+        "version": "v2.0.2",
+        "description": "<ul>
+            <li class='fixed'>Fixed issue that stopped Nudged from getting updates notifications</li>
+            <li class='added'>Added/Updated Logo</li>
+          </ul>",
+        "url": "https://github.com/KevinWoodhouse/sketch-nudged/archive/v2.0.2.zip"
+    },{
         "version": "v2.0.1",
         "description": "<ul>
             <li class='fixed'>Fixed UI bug #9 where arrows went missing on inputs</li>
@@ -34,37 +41,57 @@
     "featured-on": [{
         "site-name": "Sketch App",
         "image": "img/featured-on/sketch-logo.png",
-        "url": "https://www.sketchapp.com/extensions/plugins/"
+        "url": "https://www.sketchapp.com/extensions/plugins/",
+        "show": true
     },{
         "site-name": "Product Hunt",
         "image": "img/featured-on/product-hunt-logo.png",
-        "url": "https://www.producthunt.com/posts/nudged-sketch-plugin"
+        "url": "https://www.producthunt.com/posts/nudged-sketch-plugin",
+        "show": true
     },{
         "site-name": "Sketch Hunt",
         "image": "img/featured-on/sketch-hunt-logo.png",
-        "url": "http://sketchhunt.com/2017/01/10/nudged-sketch-plugin-easily-edit-nudge-distance-settings/"
+        "url": "#",
+        "old-url": "http://sketchhunt.com/2017/01/10/nudged-sketch-plugin-easily-edit-nudge-distance-settings/",
+        "show": true
     },{
         "site-name": "Sketch App Sources",
         "image": "img/featured-on/sketch-app-sources-logo.png",
-        "url": "https://www.sketchappsources.com/plugins-for-sketch.html"
+        "url": "https://www.sketchappsources.com/plugins-for-sketch.html",
+        "show": true
     },{
         "site-name": "Awsome-sket.ch",
         "image": "img/featured-on/awesome-sketch-logo.png",
-        "url": "https://awesome-sket.ch/"
+        "url": "https://awesome-sket.ch/",
+        "show": true
     },{
         "site-name": "Sketchapp.rocks",
         "image": "img/featured-on/sketchapp-rocks-logo.png",
-        "url": "http://sketchapp.rocks/plugins/nudged-plugin/"
+        "url": "http://sketchapp.rocks/plugins/nudged-plugin/",
+        "show": true
     },{
         "site-name": "Sketch Packs",
         "image": "img/featured-on/sketch-packs-logo.png",
-        "url": "https://sketchpacks.com/KevinWoodhouse/sketch-nudged"
+        "url": "https://sketchpacks.com/KevinWoodhouse/sketch-nudged",
+        "show": true
+    },{
+        "site-name": "UXMISFIT",                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+        "image": "img/featured-on/ux-misfit-logo.png",
+        "url": "https://uxmisfit.com/2018/02/06/productive-designer-10-sketch-plugins-that-save-your-time/",
+        "show": true
+    },{
+        "site-name": "CSS Author",
+        "image": "img/featured-on/css-author-logo.png",
+        "url": "https://cssauthor.com/sketch-plugins/",
+        "show": true
     },{
         "site-name": "Your Site Here",
         "image": "img/featured-on/your-logo.png",
-        "url": "#"
+        "url": "#",
+        "show": true
     }],
     "presskit": [{
         "url": "https://github.com/KevinWoodhouse/sketch-nudged-presskit"
     }]
 }
+

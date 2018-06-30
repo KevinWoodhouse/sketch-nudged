@@ -4,12 +4,14 @@
     <h2>Featured On</h2>
     <ul class="square-grid-list">
       {% for featured in site.data.data.featured-on %}
+      {% if featured.show %}
       <li>
         <a href="{{ featured.url }}" rel="nofollow" target="_blank" class="featured-link">
           <img src="{{ featured.image }}"/>
           <span>{{ featured.site-name }}</span>
         </a>
       </li>
+      {% endif %}
       {% endfor %}
     </ul>
   </div>

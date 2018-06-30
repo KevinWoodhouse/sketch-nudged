@@ -1,0 +1,29 @@
+ul.licence
+  margin-top: 40px
+  li
+    background: white
+    border-radius: 8px
+    padding: 20px
+    margin-bottom: 20px
+    display: block
+    box-shadow: 0px 0px 20px #ccc
+    @media #{$medium-up}
+      padding: 20px
+      width: calc(50% - 20px)
+      float: left 
+      margin: 10px
+
+    h3
+      margin-top: 15px
+      @media #{$medium-up} 
+        margin-top: 20px 
+    
+    p
+      text-align: center
+      @media #{$medium-up}
+        font-size: em(15)
+    
+    & .licence-info
+      height: auto
+      @media #{$medium-up}
+        min-height: 210px
