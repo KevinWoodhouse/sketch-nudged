@@ -1,0 +1,97 @@
+.modal
+  position: fixed
+  height: 100%
+  width: 100%
+  background: rgba(#0E7AFE, 0.9)
+  opacity: 0
+  z-index: 900
+  display: none
+  transition: all 0.3s linear
+  cursor: pointer
+
+  &.show
+    opacity: 1
+    display: block
+    & .modal-content
+      opacity: 1
+
+  .close
+    // text-indent: -999999px
+    cursor: pointer
+    height: 20px
+    width: auto
+    background: #0E7AFE
+    color: white
+    position: absolute
+    top: 10px
+    right: 10px
+    border-radius: 10px
+    padding: 10px
+    line-height: 16px
+    font-weight: 400
+    text-align: center
+    line-height: 0px
+    @media #{$medium-up}
+      font-size: 12px
+    @media #{$large-up}
+      font-size: 12px
+    
+.modal-wrapper
+  position: relative
+  height: 100%
+  width: 100%
+
+.modal-content
+  cursor: default
+  transition: all 0.3s linear
+  opacity: 0
+  text-align: center
+  width: 90%
+  height: auto
+  background: white
+  border-radius: 8px
+  padding: 20px
+  position: absolute
+  top: 50%
+  left: 50%
+  transform: translate(-50%, -50%)
+  @media #{$medium-up}
+    width: 600px
+    // width: auto
+  @media #{$large-up}
+    padding: 40px
+    width: auto
+    max-width: 900px
+    // width: auto
+  p
+    text-align: center
+  h2
+    font-weight: 600
+    font-size: 25px
+    text-transform: uppercase
+    @media #{$medium-up}
+      font-size: 30px
+  h4
+    font-weight: 400
+    font-size: 20px
+    @media #{$medium-up}
+      font-size: 22px
+
+  
+
+p.info-text
+  font-size: 14px
+  padding: 10px
+  line-height: 21px
+  color: #7C7C7C
+  background: #F1F1F1
+  display: inline-block
+  border-radius: 8px
+  @media #{$medium-up}
+    font-size: 16px
+  @media #{$large-up}
+    font-size: 14px
+
+
+.twitter-modal, .licence-modal
+  border-top: 1px solid #D9D9D9
