@@ -5,7 +5,7 @@
     <ul class="list">
       {% for version in site.data.data.versions %}
       <li>
-        <div class="list-block v-num">{{version.version}}</div>
+        <div class="list-block v-num"><a href='{{version.url}}'>{{version.version}}</a></div>
         <div class='list-block v-description'>{{version.description}}</div>
       </li>
       {% endfor %}

@@ -6,6 +6,12 @@
       "zip-url":"https://github.com/KevinWoodhouse/sketch-nudged/archive/master.zip"
     },
     "versions": [{
+        "version": "v2.1.0",
+        "description": "<ul>
+            <li class='added'>Added support for Sketch 66+</li>
+          </ul>",
+        "url": "https://github.com/KevinWoodhouse/sketch-nudged/archive/v2.1.zip"
+    },{
         "version": "v2.0.2",
         "description": "<ul>
             <li class='fixed'>Fixed issue that stopped Nudged from getting updates notifications</li>
