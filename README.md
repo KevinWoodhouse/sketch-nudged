@@ -21,7 +21,8 @@
 **A Sketch plugin to easily edit your nudge distance settings.**
 
 ### Install
-Important - make sure you have the latest version of Sketch App installed. (**Sketch 49+** Required).
+**Important** - Make sure you have the latest version of Sketch App installed. (**Sketch 59+ Required**).  
+For lower versions of Sketch App use [Nudged 2.0.2](https://github.com/KevinWoodhouse/sketch-nudged/archive/v2.0.2.zip).
 
 1. Download and open **[sketch-nudged-master.zip](https://github.com/KevinWoodhouse/sketch-nudged/archive/master.zip)**.
 2. Double click on **sketch-nudged.sketchplugin** to install.  
