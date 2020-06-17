@@ -6,8 +6,11 @@
   -----------------------------
   Twitter: @SketchNudged
   Support: https://kevinwoodhouse.github.io/sketch-nudged/
-  Version: 2.0.2 - Mocha Frappuccino
+  Version: 2.1 - Iced Tea
 */
+
+var UI = require('sketch/ui')
+var Settings = require('sketch/settings')
 
 
 /* globals NSUUID MOClassDescription NSObject NSSelectorFromString NSClassFromString */
@@ -95,7 +98,7 @@ var coScript = COScript.currentCOScript();
 var LOCATION_CHANGED = 'webView:didChangeLocationWithinPageForFrame:';
 
 function WebUI(context, htmlName, options) {
-  // ColorPicker main window
+  // Main window
   var identifier = options.identifier || NSUUID.UUID().UUIDString();
   var threadDictionary = NSThread.mainThread().threadDictionary();
   var backgroundColor = options.background || NSColor.whiteColor();
@@ -242,10 +245,6 @@ function getUserPreferences() {
       prefs[k] = isPresent(store.objectForKey(k)) ? store.dictionaryForKey(k) : defaultPrefs[k];
     }
   });
-  //log('[NUDGED] defprefs: ' + Object.keys(defaultPrefs))
-  //log('[NUDGED] defVals: ' + Object.keys(defaultPrefs).map(k => defaultPrefs[k]))
-  //log('[NUDGED] prefs: ' + Object.keys(prefs))
-  //log('[NUDGED] Vals: ' + Object.keys(prefs).map(k => prefs[k]))
   return prefs;
 }
 
@@ -272,17 +271,15 @@ function setUserPreferences(prefs) {
 
 // general functions
 function userDefaultsFromKey(key) {
-  return NSUserDefaults.standardUserDefaults().objectForKey(key);
+  return Settings.globalSettingForKey(key);
 }
 
 const gaID = 'UA-90355443-2';
 const { SendAnalytics } = getUserPreferences();
-log('[ Nudged ] - SendAnalytics? ' + SendAnalytics);
+//log('[ Nudged ] - SendAnalytics? ' + SendAnalytics);
 
 function sendEvent(context, category, action, label, value) {
-  log('[ Nudged ] - SendAnalytics? ' + SendAnalytics);
   if (!SendAnalytics) {
-    log('[ Nudged ] - SendAnalytics = false... not sending!');
     return;
   }
   const payload = {};
@@ -325,8 +322,6 @@ function openUrlInBrowser(url, ref = null) {
 }
 
 // color funcs
-
-
 function hexToNSColor(hex) {
   var r = parseInt(hex.substring(0, 2), 16) / 255,
       g = parseInt(hex.substring(2, 4), 16) / 255,
@@ -413,19 +408,17 @@ var onRun = function (context) {
   const webUI = new index(context, 'index.html', options);
 
   // saveNudgedValues
-  function saveNudgedValues(data) {
-    let sketchApp = context.api().Application();
-    sketchApp.setSettingForKey('nudgeDistanceSmall', data.small);
-    sketchApp.setSettingForKey('nudgeDistanceBig', data.big);
+  function saveNudgedValues(data){
+    //log("saveNudgedValues");
+    log('🄽 Saved Small = ' + data.small + ' Big = ' + data.big + ' Custom = ' + data.custom);
+    Settings.setGlobalSettingForKey('nudgeDistanceSmall', Number(data.small));
+    Settings.setGlobalSettingForKey('nudgeDistanceBig', Number(data.big));
     setUserPreferences({ CustomNudgedValue: data.custom });
-    context.document.showMessage('🄽 Saved Small = ' + data.small + ' Big = ' + data.big + ' Custom = ' + data.custom);
+    UI.message('🄽 Saved: Small = ' + data.small + '  Big = ' + data.big + '  Custom = ' + data.custom);
     webUI.panel.close();
     index.clear();
   }
 
-  function resetNudgeValues(data) {
-    // Future placeholder not used yet.
-  }
 };
 
 //.......................................//
@@ -444,6 +437,7 @@ var visitNudgedTwitter = function (context) {
   openUrlInBrowser(url, pluginRef);
 };
 
+
 // RESET NUDGE - KEY / MENU
 var resetNudgeValues = function (context) {
   // defaults
@@ -452,11 +446,10 @@ var resetNudgeValues = function (context) {
     big: 10,
     custom: 20
   };
-  let sketchApp = context.api().Application();
-  sketchApp.setSettingForKey('nudgeDistanceSmall', defaultNudgeValues.small);
-  sketchApp.setSettingForKey('nudgeDistanceBig', defaultNudgeValues.big);
+  Settings.setGlobalSettingForKey('nudgeDistanceSmall', defaultNudgeValues.small);
+  Settings.setGlobalSettingForKey('nudgeDistanceBig', defaultNudgeValues.big);
   setUserPreferences({ CustomNudgedValue: defaultNudgeValues.custom });
-  context.document.showMessage('🄽 Default: Small = ' + defaultNudgeValues.small + '  Big = ' + defaultNudgeValues.big + '  Custom = ' + defaultNudgeValues.custom);
+  UI.message('🄽 Default: Small = ' + defaultNudgeValues.small + '  Big = ' + defaultNudgeValues.big + '  Custom = ' + defaultNudgeValues.custom);
 };
 
 // CUSTOM NUDGE
@@ -481,7 +474,7 @@ function performCustomNudge(context, nudgeDirection) {
   let selectedLayers = context.selection;
   let selectedLayersCount = selectedLayers.count();
   if (selectedLayersCount == 0) {
-    context.document.showMessage('🄽 No Layer(s) Selected');
+    UI.message('🄽 No Layer(s) Selected');
   } else {
     let { CustomNudgedValue } = getUserPreferences();
     let nudgeValue = CustomNudgedValue;

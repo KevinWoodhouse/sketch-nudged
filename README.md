@@ -3,11 +3,11 @@
 </a>
 
 <a href="#" style="display:inline-block">
-  <img style="display:inline-block" src="https://img.shields.io/badge/Made%20for-Sketch%2049%2B-orange.svg">
+  <img style="display:inline-block" src="https://img.shields.io/badge/Made%20for-Sketch%2059%2B-orange.svg">
 </a>
 
 <a href="#" style="display:inline-block">
-  <img src="https://img.shields.io/badge/MacOS-10.12%2B-lightgrey.svg">
+  <img src="https://img.shields.io/badge/MacOS-10.13%2B-lightgrey.svg">
 </a>
 
 <br/>
@@ -64,6 +64,7 @@ Use standard Sketch App keys to Nudge objects around:
 ### Log:
 | Version | Notes |
 | --- | --- |
+| **v2.1** | Added support for Sketch 66+.
 | **v2.0.2** | Fixed issue that stopped Nudged from getting updates notifications. <br/>Added/Updated Logo.
 | **v2.0.1** | Fixed UI bug #9 where arrows went missing on inputs.
 | **v2.0** | Changed Plugin Shortcut to Ctrl + Alt + n.<br/>Added Custom Nudge input.<br/>Added smarter UI with a number of usability enhancements.<br/>Added 'Reset' button to settings window.<br/>Added Quick Reset Shortcut Ctrl + Alt + 0.<br/>Added integration with Sketch App's Update System.
@@ -94,7 +95,7 @@ Need help? Feel free to DM me [@SketchNudged](https://twitter.com/sketchnudged) 
 <a href="#"><img width="40" style="margin-bottom:0px" src="https://avatars0.githubusercontent.com/u/7264145?s=80"></a>
 
 **&copy; Kevin Woodhouse**  
-Website: [www.kevinwoodhouse.com](http://www.kevinwoodhouse.com#Sketch-Nudged-GitHub)  
+Website: [www.kevinwoodhouse.com](https://www.kevinwoodhouse.com#Sketch-Nudged-GitHub)  
 Twitter: [@Kevin_Woodhouse](https://twitter.com/kevin_woodhouse)  
 
 
